@@ -1,17 +1,15 @@
 import styled from "styled-components";
-import Header from "../Header/Header";
 import Title from "../Title/Title";
+import Post from "../Posts/Post";
 
 function Timeline() {
   return (
-    <>
-      <Header></Header>
-      <Wrapper>
-        <Title>
-          <h1>timeline</h1>
-        </Title>
-      </Wrapper>
-    </>
+    <Wrapper>
+      <Title>
+        <h1>timeline</h1>
+      </Title>
+      <Post />
+    </Wrapper>
   );
 }
 
