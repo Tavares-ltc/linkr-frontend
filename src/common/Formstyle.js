@@ -92,7 +92,7 @@ const Form = styled.form`
 	}
 
 	h5 {
-		color: rgb(239, 99, 50);
+		color: white;
 		text-decoration: underline;
 		font-weight: bold;
 		margin-bottom: 12px;

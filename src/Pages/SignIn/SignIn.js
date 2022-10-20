@@ -35,12 +35,12 @@ export default function SignUp() {
 				token: data.data.token,
 			});
 			localStorage.setItem('linkr', JSONauth);
-			navigate('/valendo');
+			navigate('/timeline');
 		} catch (error) {
 			setLoading(!loading);
 			setError({
 				isError: true,
-				message: error.response.data.message,
+				message: error.response.data,
 			});
 		}
 	}

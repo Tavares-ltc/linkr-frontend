@@ -36,12 +36,13 @@ export default function SignUp() {
 				name: userSignUp.username,
 				image: userSignUp.url,
 			});
+
 			navigate('/');
 		} catch (error) {
 			setLoading(!loading);
 			setError({
 				isError: true,
-				message: error.response.data.message,
+				message: error.response.data,
 			});
 		}
 	}
@@ -91,7 +92,7 @@ export default function SignUp() {
 						/>
 						<input
 							autoComplete='off'
-							type='text'
+							type='url'
 							name='url'
 							value={userSignUp.url}
 							onChange={handleSignUp}
