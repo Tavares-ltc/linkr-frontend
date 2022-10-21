@@ -15,7 +15,13 @@ function CreatePost({ setRefresh, refresh }) {
     const userToken = getToken();
     setToken(userToken);
     if (token) {
-      getUser(token).then((res) => setUser({ ...res.data, token }));
+      getUser(token)
+        .then((res) => setUser({ ...res.data, token }))
+        .catch(() =>
+          alert(
+            "An error occured while trying to fetch the posts, please refresh the page!"
+          )
+        );
     }
   }, [token]);
 
@@ -25,22 +31,26 @@ function CreatePost({ setRefresh, refresh }) {
     createPost(user.id, input.description, input.url, token)
       .then(() => {
         setInput({ url: "", description: "" });
-        setRefresh(!refresh);
         setLoading(false);
+        setRefresh(!refresh);
       })
       .catch((error) => {
         console.log(error);
         setLoading(false);
         alert("Houve um erro ao publicar seu link!");
-        return;
       });
   }
 
   return (
     <Wrapper>
-      <Picture image_url={user.image} />
+      <UserPicture>
+        <Picture image_url={user.image} />
+      </UserPicture>
+
       <div>
-        <h6>What are you going to share today?</h6>
+        <Title>
+          <h6>What are you going to share today?</h6>
+        </Title>
         <Form onSubmit={handleSubmit}>
           <InputUrl
             placeholder="https://..."
@@ -91,13 +101,33 @@ const Wrapper = styled.div`
     width: 100%;
   }
 
-  & > div > h6 {
+  @media (max-width: 650px) {
+    height: 164px;
+    border-radius: 0;
+  }
+`;
+
+const Title = styled.div`
+  display: flex;
+  width: 100%;
+  height: 40px;
+
+  & > h6 {
     font-family: "Lato", sans-serif;
-    height: 40px;
     font-weight: 300;
     font-size: 20px;
     line-height: 24px;
     color: #707070;
+    height: 100%;
+
+    @media (max-width: 650px) {
+      font-size: 17px;
+    }
+  }
+
+  @media (max-width: 650px) {
+    justify-content: center;
+    height: 25px;
   }
 `;
 
@@ -133,6 +163,10 @@ const InputUrl = styled.input`
 
 const InputDescription = styled(InputUrl)`
   height: 66px;
+
+  @media (max-width: 650px) {
+    height: 47px;
+  }
 `;
 
 const Button = styled.button`
@@ -152,8 +186,20 @@ const Button = styled.button`
   border: 0;
   right: 0;
 
+  @media (max-width: 650px) {
+    width: 112px;
+    height: 22px;
+    font-size: 13px;
+  }
+
   &:hover {
     filter: brightness(1.15);
+  }
+`;
+
+const UserPicture = styled.span`
+  @media (max-width: 650px) {
+    display: none;
   }
 `;
 

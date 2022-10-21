@@ -44,6 +44,10 @@ const Wrapper = styled.div`
   background: #171717;
   border-radius: 16px;
   padding: 17px;
+
+  @media (max-width: 650px) {
+    border-radius: 0;
+  }
 `;
 
 const LeftColumn = styled.div`
@@ -68,6 +72,10 @@ const Username = styled.p`
   font-size: 19px;
   line-height: 23px;
   color: #ffffff;
+
+  @media (max-width: 650px) {
+    font-size: 17px;
+  }
 `;
 
 const Description = styled.p`
@@ -78,6 +86,10 @@ const Description = styled.p`
   font-size: 17px;
   line-height: 20px;
   color: #b7b7b7;
+
+  @media (max-width: 650px) {
+    font-size: 15px;
+  }
 `;
 
 const Url = styled.div`
@@ -88,6 +100,11 @@ const Url = styled.div`
   border: 1px solid #4d4d4d;
   border-radius: 11px;
 
+  @media (max-width: 650px) {
+    height: 115px;
+    width: calc(100% - 70px);
+  }
+
   &:hover {
     filter: brightness(1.05);
   }
@@ -96,17 +113,29 @@ const Url = styled.div`
 const LeftSide = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   row-gap: 13px;
   width: calc(503px - 153px);
   height: 100%;
   border-radius: 11px 0 0 11px;
-  padding: 0 27px 4px 19px;
+  padding: 15px 27px 9px 19px;
 
   & > div {
     display: flex;
+    height: 88px;
     flex-direction: column;
     row-gap: 5px;
+    overflow-y: hidden;
+    line-height: 13px;
+
+    @media (max-width: 650px) {
+      row-gap: 0;
+      height: 70px;
+      width: 175px;
+    }
+  }
+
+  @media (max-width: 650px) {
+    padding: 10px 5px 0 11px;
   }
 `;
 
@@ -116,10 +145,19 @@ const RightSide = styled.div`
   border-radius: 0 11px 11px 0px;
 
   & > img {
-    width: 153px;
+    max-width: 153px;
+    width: 100%;
     height: 154px;
     object-fit: cover;
     border-radius: 0 11px 11px 0;
+
+    @media (max-width: 650px) {
+      height: 114px;
+    }
+  }
+
+  @media (max-width: 650px) {
+    width: 180px;
   }
 `;
 
@@ -129,16 +167,37 @@ const UrlTitle = styled.p`
   font-size: 16px;
   line-height: 19px;
   color: #cecece;
+  margin-bottom: 3.5px;
+
+  @media (max-width: 650px) {
+    font-size: 11px;
+    line-height: 16px;
+  }
 `;
 
-const UrlDescription = styled(UrlTitle)`
+const UrlDescription = styled.p`
+  font-size: 11px;
+  color: #9b9595;
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
   font-size: 11px;
   line-height: 13px;
-  color: #9b9595;
+
+  @media (max-width: 650px) {
+    font-size: 9px;
+  }
 `;
 
-const Link = styled(UrlDescription)`
+const Link = styled.p`
+  font-family: "Lato", sans-serif;
   color: #cecece;
+  font-size: 11px;
+  font-size: 11px;
+  line-height: 13px;
+
+  @media (max-width: 650px) {
+    margin-bottom: 10px;
+  }
 `;
 
 export default Post;

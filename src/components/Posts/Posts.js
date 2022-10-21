@@ -5,15 +5,21 @@ import { useEffect, useState } from "react";
 import { FallingLines } from "react-loader-spinner";
 
 function Posts({ refresh }) {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(false);
 
   useEffect(() => {
-    getPosts().then((res) => setPosts(res.data));
+    getPosts()
+      .then((res) => setPosts(res.data))
+      .catch(() =>
+        alert(
+          "An error occured while trying to fetch the posts, please refresh the page!"
+        )
+      );
   }, [refresh]);
 
-  return (
-    <Wrapper>
-      {posts.length === 0 ? (
+  function noPostsYet() {
+    if (!posts) {
+      return (
         <Loading>
           <FallingLines
             color="#fff"
@@ -22,22 +28,31 @@ function Posts({ refresh }) {
             ariaLabel="falling-lines-loading"
           />
         </Loading>
-      ) : (
-        posts.map((post, key) => {
-          return (
-            <Post
-              key={key}
-              username={post.userName}
-              userImage={post.userImage}
-              description={post.postDescription}
-              metadataUrl={post.metadataUrl}
-              metadataTitle={post.metadataTitle}
-              metadataDescription={post.metadataDescription}
-              metadataImage={post.metadataImage}
-            />
-          );
-        })
-      )}
+      );
+    }
+    if (posts.length === 0) {
+      return <NoPosts>There are no posts yet 😭</NoPosts>;
+    }
+  }
+
+  return (
+    <Wrapper>
+      {posts.length > 0
+        ? posts.map((post, key) => {
+            return (
+              <Post
+                key={key}
+                username={post.userName}
+                userImage={post.userImage}
+                description={post.postDescription}
+                metadataUrl={post.metadataUrl}
+                metadataTitle={post.metadataTitle}
+                metadataDescription={post.metadataDescription}
+                metadataImage={post.metadataImage}
+              />
+            );
+          })
+        : noPostsYet()}
     </Wrapper>
   );
 }
@@ -55,4 +70,15 @@ const Loading = styled.div`
   width: 100%;
 `;
 
+const NoPosts = styled.div`
+  display: flex;
+  justify-content: center;
+  font-family: "Lato", sans-serif;
+  width: 100%;
+  color: #fff;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  margin-top: 40px;
+`;
 export default Posts;
