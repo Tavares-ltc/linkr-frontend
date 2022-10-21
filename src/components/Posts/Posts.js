@@ -1,14 +1,16 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Post from "./Post";
 import { getPosts } from "../../services/posts";
-import { useEffect, useState } from "react";
+import getToken from "../../services/getToken";
 import { FallingLines } from "react-loader-spinner";
 
 function Posts({ refresh }) {
   const [posts, setPosts] = useState(false);
 
   useEffect(() => {
-    getPosts()
+    const token = getToken();
+    getPosts(token)
       .then((res) => setPosts(res.data))
       .catch(() =>
         alert(

@@ -1,7 +1,11 @@
 import axios from "axios";
 
-function getPosts() {
-  const promise = axios.get("http://localhost:4000/posts");
+function getPosts(token) {
+  const promise = axios.get("http://localhost:4000/posts", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return promise;
 }
 
