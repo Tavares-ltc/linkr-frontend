@@ -1,125 +1,144 @@
-import { useState } from "react";
 import styled from "styled-components";
 import Picture from "./Picture";
 
-function Post() {
-  const [input, setInput] = useState({ url: null, description: null });
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log(input);
-  }
-
+function Post({
+  username,
+  userImage,
+  description,
+  metadataUrl,
+  metadataTitle,
+  metadataDescription,
+  metadataImage,
+}) {
   return (
     <Wrapper>
-      <Picture
-        image_url={
-          "https://gw.geneanet.org/public/img/media/deposits/b9/0b/4099922/medium.jpg?t=1449669854"
-        }
-      />
-      <div>
-        <h6>What are you going to share today?</h6>
-        <Form onSubmit={handleSubmit}>
-          <InputUrl
-            placeholder="https://..."
-            name="url"
-            type="url"
-            required
-            onChange={(e) => setInput({ ...input, url: e.target.value })}
-          />
-          <InputDescription
-            placeholder="Awesome article about #javascript"
-            name="description"
-            type="text"
-            onChange={(e) =>
-              setInput({ ...input, description: e.target.value })
-            }
-          />
-          <div>
-            <Button>Publish</Button>
-          </div>
-        </Form>
-      </div>
+      <LeftColumn>
+        <Picture image_url={userImage} alt="User picture" />
+      </LeftColumn>
+      <RightColumn>
+        <Username>{username}</Username>
+        <Description>{description}</Description>
+        <a href={metadataUrl} target="_blank" rel="noreferrer">
+          <Url>
+            <LeftSide>
+              <div>
+                <UrlTitle>{metadataTitle}</UrlTitle>
+                <UrlDescription>{metadataDescription}</UrlDescription>
+              </div>
+              <Link>{metadataUrl}</Link>
+            </LeftSide>
+            <RightSide>
+              <img src={metadataImage} alt="Url" />
+            </RightSide>
+          </Url>
+        </a>
+      </RightColumn>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-  background-color: #fff;
   display: flex;
-  column-gap: 18px;
-  max-width: 611px;
+  column-gap: 14px;
   width: 100%;
-  height: 209px;
+  background: #171717;
   border-radius: 16px;
-  padding: 16px;
-
-  & > div {
-    max-width: 503px;
-    width: 100%;
-  }
-
-  & > div > h6 {
-    font-family: "Lato", sans-serif;
-    height: 40px;
-    font-weight: 300;
-    font-size: 20px;
-    line-height: 24px;
-    color: #707070;
-  }
+  padding: 17px;
 `;
 
-const Form = styled.form`
-  position: relative;
-  width: 100%;
+const LeftColumn = styled.div`
+  width: 50px;
+`;
+
+const RightColumn = styled.div`
   display: flex;
   flex-direction: column;
-  row-gap: 5px;
+  row-gap: 7px;
+  width: 100%;
+
+  & a {
+    text-decoration: none;
+  }
 `;
 
-const InputUrl = styled.input`
-  height: 30px;
-  background: #efefef;
+const Username = styled.p`
   font-family: "Lato";
-  color: #595959;
   font-style: normal;
   font-weight: 400;
-  font-size: 15px;
-  border-radius: 5px;
-  border: none;
-  padding-left: 10px;
-
-  &::placeholder {
-    font-weight: 300;
-    color: #949494;
-  }
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-const InputDescription = styled(InputUrl)`
-  height: 66px;
-`;
-
-const Button = styled.button`
-  position: absolute;
-  background: #1877f2;
-  width: 112px;
-  height: 31px;
-  border-radius: 5px;
-  font-family: "Lato", sans-serif;
-  font-weight: 700;
-  font-size: 14px;
+  font-size: 19px;
+  line-height: 23px;
   color: #ffffff;
-  cursor: pointer;
-  border: 0;
-  right: 0;
+`;
+
+const Description = styled.p`
+  min-height: 25px;
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 20px;
+  color: #b7b7b7;
+`;
+
+const Url = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 155px;
+  border: 1px solid #4d4d4d;
+  border-radius: 11px;
 
   &:hover {
-    filter: brightness(1.15);
+    filter: brightness(1.05);
   }
+`;
+
+const LeftSide = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 13px;
+  width: calc(503px - 153px);
+  height: 100%;
+  border-radius: 11px 0 0 11px;
+  padding: 0 27px 4px 19px;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+  }
+`;
+
+const RightSide = styled.div`
+  width: 153px;
+  height: 155px;
+  border-radius: 0 11px 11px 0px;
+
+  & > img {
+    width: 153px;
+    height: 154px;
+    object-fit: cover;
+    border-radius: 0 11px 11px 0;
+  }
+`;
+
+const UrlTitle = styled.p`
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #cecece;
+`;
+
+const UrlDescription = styled(UrlTitle)`
+  font-size: 11px;
+  line-height: 13px;
+  color: #9b9595;
+`;
+
+const Link = styled(UrlDescription)`
+  color: #cecece;
 `;
 
 export default Post;

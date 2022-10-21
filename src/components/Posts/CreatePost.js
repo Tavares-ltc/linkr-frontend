@@ -1,0 +1,160 @@
+import { useState, useEffect } from "react";
+import styled from "styled-components";
+import Picture from "./Picture";
+import getUser from "../../services/getUser";
+import getToken from "../../services/getToken";
+import { createPost } from "../../services/posts";
+
+function CreatePost({ setRefresh, refresh }) {
+  const [input, setInput] = useState({ url: "", description: "" });
+  const [user, setUser] = useState({});
+  const [token, setToken] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const userToken = getToken();
+    setToken(userToken);
+    if (token) {
+      getUser(token).then((res) => setUser({ ...res.data, token }));
+    }
+  }, [token]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(!loading);
+    createPost(user.id, input.description, input.url, token)
+      .then(() => {
+        setInput({ url: "", description: "" });
+        setRefresh(!refresh);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+        alert("Houve um erro ao publicar seu link!");
+        return;
+      });
+  }
+
+  return (
+    <Wrapper>
+      <Picture image_url={user.image} />
+      <div>
+        <h6>What are you going to share today?</h6>
+        <Form onSubmit={handleSubmit}>
+          <InputUrl
+            placeholder="https://..."
+            name="url"
+            type="url"
+            value={input.url}
+            pattern="^(http(s)?:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$"
+            required
+            disabled={loading}
+            onChange={(e) => setInput({ ...input, url: e.target.value })}
+          />
+          <InputDescription
+            placeholder="Awesome article about #javascript"
+            name="description"
+            type="text"
+            value={input.description}
+            disabled={loading}
+            onChange={(e) =>
+              setInput({ ...input, description: e.target.value })
+            }
+          />
+          <div>
+            {!loading ? (
+              <Button>Publish</Button>
+            ) : (
+              <Button disabled>Publishing...</Button>
+            )}
+          </div>
+        </Form>
+      </div>
+    </Wrapper>
+  );
+}
+
+const Wrapper = styled.div`
+  background-color: #fff;
+  display: flex;
+  column-gap: 18px;
+  max-width: 611px;
+  width: 100%;
+  height: 209px;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 29px;
+
+  & > div {
+    max-width: 503px;
+    width: 100%;
+  }
+
+  & > div > h6 {
+    font-family: "Lato", sans-serif;
+    height: 40px;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 24px;
+    color: #707070;
+  }
+`;
+
+const Form = styled.form`
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+`;
+
+const InputUrl = styled.input`
+  height: 30px;
+  background: #efefef;
+  font-family: "Lato";
+  color: #595959;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  border-radius: 5px;
+  border: none;
+  padding-left: 10px;
+
+  &::placeholder {
+    font-weight: 300;
+    color: #949494;
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;
+
+const InputDescription = styled(InputUrl)`
+  height: 66px;
+`;
+
+const Button = styled.button`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #1877f2;
+  width: 112px;
+  height: 31px;
+  border-radius: 5px;
+  font-family: "Lato", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #ffffff;
+  cursor: pointer;
+  border: 0;
+  right: 0;
+
+  &:hover {
+    filter: brightness(1.15);
+  }
+`;
+
+export default CreatePost;

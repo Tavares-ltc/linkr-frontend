@@ -1,14 +1,18 @@
 import styled from "styled-components";
 import Title from "../Title/Title";
-import Post from "../Posts/Post";
+import CreatePost from "../Posts/CreatePost";
+import Posts from "../Posts/Posts";
+import { useState } from "react";
 
 function Timeline() {
+  const [refresh, setRefresh] = useState(false);
   return (
     <Wrapper>
       <Title>
         <h1>timeline</h1>
       </Title>
-      <Post />
+      <CreatePost refresh={refresh} setRefresh={setRefresh} />
+      <Posts refresh={refresh} />
     </Wrapper>
   );
 }
