@@ -1,8 +1,10 @@
 import { TailSpin, ColorRing } from 'react-loader-spinner';
+import Header from '../../components/Header';
 import styled from 'styled-components';
 export default function Timeline() {
 	return (
 		<>
+			<Header />
 			<Teste>
 				<TailSpin color='blue' width='80' />
 				<ColorRing

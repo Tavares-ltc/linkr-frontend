@@ -17,6 +17,7 @@ export default function SignUp() {
 		password: '',
 	});
 	const [loading, setLoading] = useState(false);
+	const [disable, setDisable] = useState(false);
 	const [error, setError] = useState({
 		isError: false,
 		message: '',
@@ -25,6 +26,7 @@ export default function SignUp() {
 
 	async function handleForm(e) {
 		e.preventDefault();
+		setDisable(!disable);
 		try {
 			const data = await postSignIn({
 				email: userLogin.email,
@@ -35,6 +37,7 @@ export default function SignUp() {
 				token: data.data.token,
 			});
 			localStorage.setItem('linkr', JSONauth);
+			console.log(data.data.token); //apagar dps
 			navigate('/timeline');
 		} catch (error) {
 			setLoading(!loading);
@@ -83,8 +86,12 @@ export default function SignUp() {
 						{error.isError ? <h5>{error.message}</h5> : <></>}
 						<Button
 							type='submit'
+							disabled={disable}
 							onClick={() => {
 								setLoading(!loading);
+								setTimeout(() => {
+									setLoading(false);
+								}, 800);
 							}}
 						>
 							{loading ? <TailSpin color='#ffffff' width='10' /> : <>Log In</>}
