@@ -4,7 +4,11 @@ import { useNavigate } from "react-router-dom";
 export default function Hashtag({ children }) {
     const navigate = useNavigate();
     return (
-        <Wrapper onClick={() => navigate('/hashtags/:hashtag')}>
+        <Wrapper onClick={() => navigate('/hashtags/:hashtag', {
+            state: {
+                hashtag: children
+            }
+        })}>
             # {children}
         </Wrapper>
     )
