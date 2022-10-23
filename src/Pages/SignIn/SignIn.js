@@ -37,7 +37,6 @@ export default function SignUp() {
 				token: data.data.token,
 			});
 			localStorage.setItem('linkr', JSONauth);
-			console.log(data.data.token); //apagar dps
 			navigate('/timeline');
 		} catch (error) {
 			setLoading(!loading);

@@ -31,7 +31,6 @@ export default function SignUp() {
 		setDisable(!disable);
 
 		try {
-			setLoading(!loading);
 			await postSignUp({
 				email: userSignUp.email,
 				password: userSignUp.password,
