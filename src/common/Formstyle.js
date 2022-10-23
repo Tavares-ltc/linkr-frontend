@@ -4,6 +4,7 @@ const Container = styled.div`
 	width: 100vw;
 	height: 100vh;
 	display: flex;
+	overflow-x: auto;
 
 	a {
 		margin-top: 15px;
@@ -11,24 +12,36 @@ const Container = styled.div`
 		font-size: 20px;
 		color: white;
 	}
+	@media (max-width: 414px) {
+		flex-direction: column;
+		width: 414px;
+	}
 `;
 const LeftSide = styled.div`
-	width: 100%;
+	width: 100vw;
 	height: 100vh;
 	background-color: #151515;
 	display: flex;
 	justify-content: center;
+
+	@media (max-width: 414px) {
+		width: 414px;
+		height: 300px;
+		z-index: 3;
+		box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.55);
+	}
 `;
 
 const Linkr = styled.div`
 	font-family: 'Passion One', cursive;
-	width: 400px;
+	width: 380px;
 	height: 100vh;
 	background-color: #151515;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	justify-content: center;
+	padding: 20px;
 
 	h1 {
 		font-size: 106px;
@@ -36,8 +49,17 @@ const Linkr = styled.div`
 	}
 
 	p {
-		font-size: 43px;
+		font-size: 40px;
 		color: white;
+	}
+	@media (max-width: 414px) {
+		align-items: center;
+		height: 300px;
+
+		p {
+			text-align: center;
+			font-size: 38px;
+		}
 	}
 `;
 
@@ -50,6 +72,12 @@ const SignPage = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+
+	@media (max-width: 414px) {
+		justify-content: flex-start;
+		padding-top: 60px;
+		width: 414px;
+	}
 `;
 
 const Form = styled.form`
@@ -98,6 +126,14 @@ const Form = styled.form`
 		margin-bottom: 12px;
 		font-size: 15px;
 	}
+
+	@media (max-width: 414px) {
+		justify-content: flex-start;
+		input {
+			width: 350px;
+			margin-bottom: 20px;
+		}
+	}
 `;
 
 const Button = styled.button`
@@ -114,7 +150,10 @@ const Button = styled.button`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	@media (max-width: 414px) {
+		width: 350px;
+	}
 `;
 
 export { Button, Form, Container, LeftSide, Linkr, SignPage };
-//export { Button, Form, Container };

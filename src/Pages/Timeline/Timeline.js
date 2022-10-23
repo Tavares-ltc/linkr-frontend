@@ -1,3 +1,4 @@
+
 import styled from "styled-components";
 import GlobalStyle from "../../Assets/styles/GlobalStyle";
 import Title from "../../components/Title/Title";
@@ -19,6 +20,7 @@ function Timeline() {
       </Wrapper>
     </>
   );
+
 }
 
 const Wrapper = styled.div`
