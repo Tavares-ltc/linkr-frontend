@@ -1,31 +1,33 @@
-import { TailSpin, ColorRing } from 'react-loader-spinner';
-import Header from '../../components/Header';
-import styled from 'styled-components';
-export default function Timeline() {
-	return (
-		<>
-			<Header />
-			<Teste>
-				<TailSpin color='blue' width='80' />
-				<ColorRing
-					visible={true}
-					height='80'
-					width='80'
-					ariaLabel='blocks-loading'
-					wrapperStyle={{}}
-					wrapperClass='blocks-wrapper'
-					colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-				/>
-			</Teste>
-		</>
-	);
+
+import styled from "styled-components";
+import GlobalStyle from "../../Assets/styles/GlobalStyle";
+import Title from "../../components/Title/Title";
+import CreatePost from "../../components/Posts/CreatePost";
+import Posts from "../../components/Posts/Posts";
+import { useState } from "react";
+
+function Timeline() {
+  const [refresh, setRefresh] = useState(false);
+  return (
+    <>
+      <GlobalStyle />
+      <Wrapper>
+        <Title>
+          <h1>timeline</h1>
+        </Title>
+        <CreatePost refresh={refresh} setRefresh={setRefresh} />
+        <Posts refresh={refresh} />
+      </Wrapper>
+    </>
+  );
+
 }
 
-const Teste = styled.div`
-	width: 200px;
-	height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background-color: black;
+const Wrapper = styled.div`
+  margin: 0 auto;
+  max-width: 611px;
+  width: 100%;
+  margin-top: 78px;
 `;
+
+export default Timeline;

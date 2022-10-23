@@ -1,15 +1,15 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { postSignUp } from '../../services/linkr';
-import { TailSpin } from 'react-loader-spinner';
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { postSignUp } from "../../services/linkr";
+import { TailSpin } from "react-loader-spinner";
 import {
-	Button,
-	Form,
-	Container,
-	LeftSide,
-	Linkr,
-	SignPage,
-} from '../../common/Formstyle';
+  Button,
+  Form,
+  Container,
+  LeftSide,
+  Linkr,
+  SignPage,
+} from "../../common/Formstyle";
 
 export default function SignUp() {
 	const [userSignUp, setUserSignUp] = useState({
@@ -38,30 +38,31 @@ export default function SignUp() {
 				image: userSignUp.url,
 			});
 
-			navigate('/');
-		} catch (error) {
-			setLoading(!loading);
-			setError({
-				isError: true,
-				message: error.response.data,
-			});
-		}
-	}
 
-	function handleSignUp(e) {
-		let value = e.target.value;
-		setUserSignUp({ ...userSignUp, [e.target.name]: value });
-	}
-	return (
-		<>
-			<Container>
-				<LeftSide>
-					<Linkr>
-						<h1>linkr</h1>
-						<p>save, share and discover the best links on the web</p>
-					</Linkr>
-				</LeftSide>
+      navigate("/");
+    } catch (error) {
+      setLoading(!loading);
+      setError({
+        isError: true,
+        message: error.response.data,
+      });
+    }
+  }
 
+  function handleSignUp(e) {
+    let value = e.target.value;
+    setUserSignUp({ ...userSignUp, [e.target.name]: value });
+  }
+  return (
+    <>
+      <Container>
+        <LeftSide>
+          <Linkr>
+            <h1>linkr</h1>
+            <p>save, share and discover the best links on the web</p>
+          </Linkr>
+        </LeftSide>
+        
 				<SignPage>
 					<Form onSubmit={handleForm}>
 						<input
@@ -121,4 +122,5 @@ export default function SignUp() {
 			</Container>
 		</>
 	);
+
 }
