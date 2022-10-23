@@ -11,7 +11,8 @@ function Posts({ refresh }) {
   useEffect(() => {
     const token = getToken();
     getPosts(token)
-      .then((res) => setPosts(res.data))
+      .then((res) => setPosts(res.data)
+      )
       .catch(() =>
         alert(
           "An error occured while trying to fetch the posts, please refresh the page!"
@@ -51,6 +52,8 @@ function Posts({ refresh }) {
                 metadataTitle={post.metadataTitle}
                 metadataDescription={post.metadataDescription}
                 metadataImage={post.metadataImage}
+                postId={post.id}
+                userId={post.userId}
               />
             );
           })
