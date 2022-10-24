@@ -14,15 +14,7 @@ const getPostsByHashtag = (hashtag, token) => axios.get(`${BASE_URL}/hashtags/${
     }
 });
 
-const postHashtag = (hashtags, token) => axios.post(`${BASE_URL}/hashtags`, {
-    headers: {
-        Authorization: `Bearer ${token}`
-    }
-},
-hashtags);
-
 export {
     getTrendingHashtags,
-    getPostsByHashtag,
-    postHashtag
+    getPostsByHashtag
 }

@@ -1,9 +1,11 @@
 import SignUp from '../Pages/SignUp/SignUp';
 import SignIn from '../Pages/SignIn/SignIn';
-import Timeline from './Timeline/Timeline';
+import Timeline from '../Pages/Timeline/Timeline';
 import PrivatePage from './PrivatePage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import GlobalStyle from '../Assets/styles/GlobalStyle';
+import Header from './Header';
+import HashtagPage from '../Pages/Hashtag/HashtagPage';
 
 function App() {
 	return (
@@ -17,9 +19,17 @@ function App() {
 						path='/timeline'
 						element={
 							<PrivatePage>
+								<Header />
 								<Timeline />
 							</PrivatePage>
 						}
+					/>
+					<Route path='/hashtag/:hashtagName' element={
+						<PrivatePage>
+							<Header />
+							<HashtagPage />
+						</PrivatePage>
+					}
 					/>
 				</Routes>
 			</BrowserRouter>

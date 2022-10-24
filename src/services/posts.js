@@ -9,13 +9,14 @@ function getPosts(token) {
   return promise;
 }
 
-function createPost(userId, description, link, token) {
+function createPost(userId, hashtags, description, link, token) {
   const promise = axios.post(
     "http://localhost:4000/posts",
     {
       userId,
       description,
       link,
+      hashtags
     },
     {
       headers: {

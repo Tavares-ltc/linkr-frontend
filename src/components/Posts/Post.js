@@ -40,7 +40,7 @@ function Post({
 const Wrapper = styled.div`
   display: flex;
   column-gap: 14px;
-  width: 100%;
+  width: 611px;
   background: #171717;
   border-radius: 16px;
   padding: 17px;

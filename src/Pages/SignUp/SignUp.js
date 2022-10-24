@@ -1,7 +1,7 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { postSignUp } from '../../services/linkr';
-import { TailSpin } from 'react-loader-spinner';
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { postSignUp } from "../../services/linkr";
+import { TailSpin } from "react-loader-spinner";
 import {
 	Button,
 	Form,
@@ -9,7 +9,7 @@ import {
 	LeftSide,
 	Linkr,
 	SignPage,
-} from '../../Assets/styles/Formstyle';
+} from '../../common/Formstyle';
 
 export default function SignUp() {
 	const [userSignUp, setUserSignUp] = useState({
@@ -19,6 +19,7 @@ export default function SignUp() {
 		url: '',
 	});
 	const [loading, setLoading] = useState(false);
+	const [disable, setDisable] = useState(false);
 	const [error, setError] = useState({
 		isError: false,
 		message: '',
@@ -27,9 +28,9 @@ export default function SignUp() {
 
 	async function handleForm(e) {
 		e.preventDefault();
+		setDisable(!disable);
 
 		try {
-			setLoading(!loading);
 			await postSignUp({
 				email: userSignUp.email,
 				password: userSignUp.password,
@@ -37,30 +38,31 @@ export default function SignUp() {
 				image: userSignUp.url,
 			});
 
-			navigate('/');
-		} catch (error) {
-			setLoading(!loading);
-			setError({
-				isError: true,
-				message: error.response.data,
-			});
-		}
-	}
 
-	function handleSignUp(e) {
-		let value = e.target.value;
-		setUserSignUp({ ...userSignUp, [e.target.name]: value });
-	}
-	return (
-		<>
-			<Container>
-				<LeftSide>
-					<Linkr>
-						<h1>linkr</h1>
-						<p>save, share and discover the best links on the web</p>
-					</Linkr>
-				</LeftSide>
+      navigate("/");
+    } catch (error) {
+      setLoading(!loading);
+      setError({
+        isError: true,
+        message: error.response.data,
+      });
+    }
+  }
 
+  function handleSignUp(e) {
+    let value = e.target.value;
+    setUserSignUp({ ...userSignUp, [e.target.name]: value });
+  }
+  return (
+    <>
+      <Container>
+        <LeftSide>
+          <Linkr>
+            <h1>linkr</h1>
+            <p>save, share and discover the best links on the web</p>
+          </Linkr>
+        </LeftSide>
+        
 				<SignPage>
 					<Form onSubmit={handleForm}>
 						<input
@@ -102,8 +104,12 @@ export default function SignUp() {
 						{error.isError ? <h5>{error.message}</h5> : <></>}
 						<Button
 							type='submit'
+							disabled={disable}
 							onClick={() => {
 								setLoading(!loading);
+								setTimeout(() => {
+									setLoading(false);
+								}, 800);
 							}}
 						>
 							{loading ? <TailSpin color='#ffffff' width='10' /> : <>Sign Up</>}
@@ -116,4 +122,5 @@ export default function SignUp() {
 			</Container>
 		</>
 	);
+
 }

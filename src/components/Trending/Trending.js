@@ -1,26 +1,36 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import getUserToken from "../../services/getToken";
+import { getTrendingHashtags } from "../../services/hashtagsServices";
 import Hashtag from "./Hashtag";
 
 
 export default function Trending() {
-    const hashtags = [
-        'javascript',
-        'react',
-        'react-native',
-        'material',
-        'web-dev',
-        'mobile',
-        'css',
-        'html',
-        'node',
-        'sql'        
-    ];
+    const [hashtags, setHashtags] = useState([]);
+
+    useEffect(
+        () => {
+            const token = getUserToken();
+                getTrendingHashtags(token).then((res) => {
+                    console.log(res.data);
+                    setHashtags(res.data)
+                })
+                .catch((res) => {
+                    if (res.response.status === 404) {
+                        return;
+                    }
+                    alert('Could not get Tranding hashtags, please reload');
+                });
+        },
+        []
+    );
+
     return (
         <Wrapper>
             <h3>
                 trending
             </h3>
-            {hashtags.map(hashtag => <Hashtag>{hashtag}</Hashtag>)}
+            {hashtags.map(hashtag => <Hashtag key={hashtag.id}>{hashtag.name}</Hashtag>)}
         </Wrapper>
     )
 };
@@ -31,6 +41,7 @@ const Wrapper = styled.div`
     background-color: rgba(23, 23, 23, 1);
     border-radius: 16px;
     color: rgba(255, 255, 255, 1);
+    margin-left: 25px;
 
     h3 {
         width: 100%;
@@ -40,5 +51,9 @@ const Wrapper = styled.div`
         font-size: 27px;
         font-weight: 700;
         margin-bottom: 22px;
+    }
+
+    @media (max-width: 937px) {
+        display: none;
     }
 `

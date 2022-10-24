@@ -4,6 +4,7 @@ import Picture from "./Picture";
 import getUser from "../../services/getUser";
 import getToken from "../../services/getToken";
 import { createPost } from "../../services/posts";
+import { postHashtags } from '../../services/hashtagsServices'
 
 function CreatePost({ setRefresh, refresh }) {
   const [input, setInput] = useState({ url: "", description: "" });
@@ -28,7 +29,9 @@ function CreatePost({ setRefresh, refresh }) {
   function handleSubmit(e) {
     e.preventDefault();
     setLoading(!loading);
-    createPost(user.id, input.description, input.url, token)
+    const inputWords = input.description.split(' ');
+    const hashtags = inputWords.filter(word => word[0] === '#');
+    createPost(user.id, hashtags, input.description, input.url, token)
       .then(() => {
         setInput({ url: "", description: "" });
         setLoading(false);
@@ -90,7 +93,7 @@ const Wrapper = styled.div`
   display: flex;
   column-gap: 18px;
   max-width: 611px;
-  width: 100%;
+  width: 611px;
   height: 209px;
   border-radius: 16px;
   padding: 16px;
@@ -104,6 +107,7 @@ const Wrapper = styled.div`
   @media (max-width: 650px) {
     height: 164px;
     border-radius: 0;
+    width: 100%;
   }
 `;
 

@@ -9,7 +9,7 @@ import {
 	LeftSide,
 	Linkr,
 	SignPage,
-} from '../../Assets/styles/Formstyle';
+} from '../../common/Formstyle';
 
 export default function SignUp() {
 	const [userLogin, setUserLogin] = useState({
@@ -17,6 +17,7 @@ export default function SignUp() {
 		password: '',
 	});
 	const [loading, setLoading] = useState(false);
+	const [disable, setDisable] = useState(false);
 	const [error, setError] = useState({
 		isError: false,
 		message: '',
@@ -25,6 +26,7 @@ export default function SignUp() {
 
 	async function handleForm(e) {
 		e.preventDefault();
+		setDisable(!disable);
 		try {
 			const data = await postSignIn({
 				email: userLogin.email,
@@ -84,8 +86,12 @@ export default function SignUp() {
 						{error.isError ? <h5>{error.message}</h5> : <></>}
 						<Button
 							type='submit'
+							disabled={disable}
 							onClick={() => {
 								setLoading(!loading);
+								setTimeout(() => {
+									setLoading(false);
+								}, 800);
 							}}
 						>
 							{loading ? <TailSpin color='#ffffff' width='10' /> : <>Log In</>}
