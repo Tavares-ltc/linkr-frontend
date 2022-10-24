@@ -27,7 +27,6 @@ function Post({
   const [formEdit, setFormEdit] = useState({});
   const [descriptionValue, setDescriptionValue] = useState(description);
   const [isEditing, setEditing] = useState(false);
-  const [descriptionPost, setDescriptionPost] = useState(description);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef(0);
   const toggleEditing = () => {
@@ -74,7 +73,8 @@ function Post({
     if(e.key==="Enter"){
       e.preventDefault();
       editPost({formEdit, postId}).then((res)=>{
-        setDescriptionPost(formEdit.description)
+        setDescriptionValue(formEdit.description)
+        setRefresh(!refresh)
         toggleEditing()
       })
       .catch((res) =>{
@@ -93,6 +93,7 @@ function Post({
     setLoading(!loading)
     deletePost(postId).then((res)=>{
       setRefresh(!refresh)
+      setDescriptionValue(description)
       closeModal()
     })
     .catch((res) =>{
@@ -157,7 +158,7 @@ to delete this post?</h2>
       onChange={(e) => handleForm({
                 name:e.target.name,
                 value:e.target.value,
-            })}/> : <Description>{descriptionPost}</Description>}
+            })}/> : <Description>{description}</Description>}
     </div>
         
         <a href={metadataUrl} target="_blank" rel="noreferrer">
