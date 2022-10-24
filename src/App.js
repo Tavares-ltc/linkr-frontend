@@ -5,6 +5,7 @@ import SignIn from "./Pages/SignIn/SignIn";
 import Timeline from "./Pages/Timeline/Timeline";
 import PrivatePage from "./components/PrivatePage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import UserTimeline from "./Pages/Timeline/UserTimeline";
 
 function App() {
   return (
@@ -18,6 +19,14 @@ function App() {
             element={
               <PrivatePage>
                 <Timeline />
+              </PrivatePage>
+            }
+          />
+          <Route
+            path="/user/:id"
+            element={
+              <PrivatePage>
+                <UserTimeline />
               </PrivatePage>
             }
           />

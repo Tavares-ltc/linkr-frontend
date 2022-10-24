@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Picture from "./Picture";
 import  Modal  from  'react-modal';
@@ -6,7 +7,6 @@ import { deletePost, editPost } from "../../services/editPost";
 import { AiTwotoneDelete } from 'react-icons/ai';
 import { TiPencil } from "react-icons/ti" ;
 import { TailSpin } from 'react-loader-spinner';
-
 function Post({
   username,
   userImage,
@@ -102,15 +102,17 @@ function Post({
     })
   }
 
+  const  navigate = useNavigate();
+
   return (
     <Wrapper>
       <LeftColumn>
-        <Picture image_url={userImage} alt="User picture" />
+        <Picture image_url={userImage} alt="User picture"   />
       </LeftColumn>
       <RightColumn>
         <Header>
       <UserColumn>
-      <Username>{username}</Username>
+      <Username onClick={()=>{navigate(`/user/${userId}`)}}>{username}</Username>
       </UserColumn>
       <EditColumn>
       <TiPencil onClick={toggleEditing}/>
@@ -215,6 +217,7 @@ const Username = styled.p`
   font-size: 19px;
   line-height: 23px;
   color: #ffffff;
+  cursor: pointer;
 
   @media (max-width: 650px) {
     font-size: 17px;
