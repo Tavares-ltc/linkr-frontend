@@ -22,4 +22,13 @@ async function getUserPosts(userId) {
   });
 }
 
-export { getUserById, getUserPosts };
+async function searchUser(name){
+  return axios.get(`${BASE_URL}/user/search/${name}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  
+}
+
+export { getUserById, getUserPosts, searchUser };

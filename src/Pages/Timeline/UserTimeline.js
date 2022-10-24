@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import GlobalStyle from "../../Assets/styles/GlobalStyle";
 import Title from "../../components/Title/Title";
+import Header from "../../components/Header"
 import UserPosts from "../../components/Posts/UserPosts";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -29,6 +30,7 @@ function UserTimeline() {
   return (
     <>
       <GlobalStyle />
+        <Header/>
       <Wrapper>
         <Title>
           {error.data ? (
@@ -47,7 +49,7 @@ const Wrapper = styled.div`
   margin: 0 auto;
   max-width: 611px;
   width: 100%;
-  margin-top: 78px;
+  margin-top: 100px;
 `;
 
 export default UserTimeline;
