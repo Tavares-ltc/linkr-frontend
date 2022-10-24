@@ -3,7 +3,7 @@ import axios from "axios";
 function getPosts(token) {
   const promise = axios.get("http://localhost:4000/posts", {
     headers: {
-      Authorization: `Bearer 1aab568c-284c-48e3-84fb-0cfbb344a695`,
+      Authorization: `Bearer ${token}`,
     },
   });
   return promise;
