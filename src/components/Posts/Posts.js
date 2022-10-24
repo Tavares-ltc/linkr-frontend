@@ -5,7 +5,7 @@ import { getPosts } from "../../services/posts";
 import getToken from "../../services/getToken";
 import { FallingLines } from "react-loader-spinner";
 
-function Posts({ refresh }) {
+function Posts({ refresh, setRefresh }) {
   const [posts, setPosts] = useState(false);
 
   useEffect(() => {
@@ -54,6 +54,8 @@ function Posts({ refresh }) {
                 metadataImage={post.metadataImage}
                 postId={post.id}
                 userId={post.userId}
+                setRefresh={setRefresh}
+                refresh={refresh}
               />
             );
           })

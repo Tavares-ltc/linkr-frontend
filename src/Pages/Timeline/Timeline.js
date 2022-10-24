@@ -15,7 +15,7 @@ function Timeline() {
           <h1>timeline</h1>
         </Title>
         <CreatePost refresh={refresh} setRefresh={setRefresh} />
-        <Posts refresh={refresh} />
+        <Posts refresh={refresh} setRefresh={setRefresh}/>
       </Wrapper>
     </>
   );

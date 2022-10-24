@@ -5,6 +5,7 @@ import { useEffect, useState, useRef } from "react";
 import { deletePost, editPost } from "../../services/editPost";
 import { AiTwotoneDelete } from 'react-icons/ai';
 import { TiPencil } from "react-icons/ti" ;
+import { TailSpin } from 'react-loader-spinner';
 
 function Post({
   username,
@@ -15,12 +16,23 @@ function Post({
   metadataDescription,
   metadataImage,
   postId,
-  userId
+  userId,
+  setRefresh,
+  refresh
 }) {
-  console.log(postId)
+
   Modal.setAppElement('#root');
   let  subtitle ; 
   const  [ modalIsOpen ,  setIsOpen ]  = useState(false) ;
+  const [formEdit, setFormEdit] = useState({});
+  const [descriptionValue, setDescriptionValue] = useState(description);
+  const [isEditing, setEditing] = useState(false);
+  const [descriptionPost, setDescriptionPost] = useState(description);
+  const [loading, setLoading] = useState(false);
+  const inputRef = useRef(0);
+  const toggleEditing = () => {
+    setEditing(!isEditing);
+  };
 
   function  openModal ( )  { 
     setIsOpen ( true ) ; 
@@ -46,16 +58,7 @@ function Post({
       borderRadius:'40px'
     } , 
   } ;
-
-
-  const [formEdit, setFormEdit] = useState({});
-  const [descriptionValue, setDescriptionValue] = useState(description);
-  const [isEditing, setEditing] = useState(false);
-  const [descriptionPost, setDescriptionPost] = useState(description)
-  const toggleEditing = () => {
-    setEditing(!isEditing);
-  };
-  const inputRef = useRef(0);
+  
   
   function handleForm({name, value}){
     setDescriptionValue(value)
@@ -65,9 +68,7 @@ function Post({
   }
 
   function sendForm(e){
-    console.log(e.key)
     if(e.key ==="Escape"){
-      console.log('foi teclado')
       toggleEditing()
     }
     if(e.key==="Enter"){
@@ -82,7 +83,6 @@ function Post({
     } 
   }
 
-
   useEffect(() => {
     if (isEditing) {
       inputRef.current.focus();
@@ -90,8 +90,9 @@ function Post({
   }, [isEditing]);
 
   function deleteMyPost(){
+    setLoading(!loading)
     deletePost(postId).then((res)=>{
-      console.log(res.data)
+      setRefresh(!refresh)
       closeModal()
     })
     .catch((res) =>{
@@ -125,8 +126,22 @@ function Post({
         < h2  ref = { (subtitle )  =>  (subtitle=subtitle )}>Are you sure you want
 to delete this post?</h2>
       <BlockButtons>
-        < ButtonClose onClick = { closeModal }> No, go back </ButtonClose> 
-        <ExcludeButton onClick = { deleteMyPost }> Yes, delete it </ExcludeButton>
+      {loading ? <TailSpin 
+        color='#ffffff' 
+        width='10' 
+        /> : 
+       <>
+       <ButtonClose 
+        onClick = { closeModal }
+        > No, go back 
+       </ButtonClose> 
+       <ExcludeButton 
+        onClick = { deleteMyPost }> 
+        Yes, delete it 
+       </ExcludeButton> 
+     </> 
+     }
+        
         </BlockButtons>
         </BackModal>
       </Modal> 
