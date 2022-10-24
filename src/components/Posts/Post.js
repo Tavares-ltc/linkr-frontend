@@ -412,7 +412,7 @@ const ExcludeButton = styled.div`
 `
 
 const InputEdit = styled.input`
-  width:80%;
+  width:90%;
   height:45px;
   border-style:none;
 `
