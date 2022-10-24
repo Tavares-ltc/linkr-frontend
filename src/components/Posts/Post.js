@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { ReactTagify } from "react-tagify";
 import styled from "styled-components";
 import { Like } from "./like";
 import Picture from "./Picture";
@@ -24,12 +23,6 @@ function Post({
   setRefresh,
   refresh
 }) {
-
-  const tagStyle = {
-    color: 'white',
-    fontWeight: 700,
-    cursor: 'pointer'
-  }
 
   Modal.setAppElement('#root');
   let  subtitle ; 
@@ -171,15 +164,8 @@ to delete this post?</h2>
       onChange={(e) => handleForm({
                 name:e.target.name,
                 value:e.target.value,
-            })}/> : <ReactTagify
-            tagStyle={tagStyle}
-            tagClicked={(tag) => {
-              console.log(tag);
-              navigate(`/hashtag/${tag.slice(1)}`);
-            }}
-          >
-          <Description>{description}</Description>
-          </ReactTagify>}
+            })}/> : 
+          <Description>{description}</Description>}
     </div>
         
         <a href={metadataUrl} target="_blank" rel="noreferrer">
