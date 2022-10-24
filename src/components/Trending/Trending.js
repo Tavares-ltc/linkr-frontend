@@ -12,7 +12,6 @@ export default function Trending() {
         () => {
             const token = getUserToken();
                 getTrendingHashtags(token).then((res) => {
-                    console.log(res.data);
                     setHashtags(res.data)
                 })
                 .catch((res) => {

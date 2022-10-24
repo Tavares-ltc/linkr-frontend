@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { ReactTagify } from "react-tagify";
 import styled from "styled-components";
 import Picture from "./Picture";
 
@@ -10,6 +12,16 @@ function Post({
   metadataDescription,
   metadataImage,
 }) {
+  const navigate = useNavigate();
+
+  const tagStyle = {
+    color: 'white',
+    fontWeight: 700,
+    cursor: 'pointer'
+  }
+
+  console.log(tagStyle);
+
   return (
     <Wrapper>
       <LeftColumn>
@@ -17,7 +29,15 @@ function Post({
       </LeftColumn>
       <RightColumn>
         <Username>{username}</Username>
+        <ReactTagify
+          tagStyle={tagStyle}
+          tagClicked={(tag) => {
+            console.log(tag);
+            navigate(`/hashtag/${tag.slice(1)}`);
+          }}
+        >
         <Description>{description}</Description>
+        </ReactTagify>
         <a href={metadataUrl} target="_blank" rel="noreferrer">
           <Url>
             <LeftSide>
