@@ -1,5 +1,5 @@
 import axios from "axios";
-
+//lembrar de trocar novamente o token
 function getPosts(token) {
   const promise = axios.get("http://localhost:4000/posts", {
     headers: {
