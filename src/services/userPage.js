@@ -2,6 +2,7 @@ import axios from "axios";
 import getUserToken from "./getToken";
 
 const BASE_URL = "https://project-linkr-api.herokuapp.com";
+
 const token = getUserToken();
 
 async function getUserById(userId) {
