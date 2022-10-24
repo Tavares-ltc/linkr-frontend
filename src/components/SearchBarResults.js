@@ -1,16 +1,19 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-function UserPlaceholder({ img, name, id }) {
+function UserPlaceholder({ img, name, id, setSearch }) {
   const navigate = useNavigate()
   return (
     <UserWrappler>
       <img src={img} />
-      <h1 onClick={()=>{navigate(`/user/${id}`)}}>{name}</h1>
+      <h1 onClick={()=>{
+        navigate(`/user/${id}`)
+        setSearch("")
+        }}>{name}</h1>
     </UserWrappler>
   );
 }
 
-function SearchBarResults({ usersList }) {
+function SearchBarResults({ usersList, setSearch }) {
 
   return (
     <Wrappler>
@@ -20,6 +23,7 @@ function SearchBarResults({ usersList }) {
           img={user.image}
           name={user.name}
           id={user.id}
+          setSearch={setSearch}
         />
       ))}
     </Wrappler>

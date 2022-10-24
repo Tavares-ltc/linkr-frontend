@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const BASE_URL = 'https://project-linkr-api.herokuapp.com';
+
 function getUser(token) {
   return axios.get(
-    "http://localhost:4000/user",
+    `${BASE_URL}/user`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
