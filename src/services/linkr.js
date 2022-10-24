@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://git.heroku.com/project-linkr-api.git';
+const BASE_URL = 'https://project-linkr-api.herokuapp.com/';
 
 async function postSignUp(signUp) {
 	const promise = await axios.post(`${BASE_URL}/signup`, signUp);

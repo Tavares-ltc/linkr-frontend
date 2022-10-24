@@ -2,7 +2,7 @@ import axios from "axios";
 
 function getUser(token) {
   return axios.get(
-    "https://git.heroku.com/project-linkr-api.git",
+    "https://project-linkr-api.herokuapp.com/",
     {
       headers: {
         Authorization: `Bearer ${token}`,
