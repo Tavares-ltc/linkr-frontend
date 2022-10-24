@@ -1,22 +1,25 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Picture from "./Picture";
-
 function Post({
   username,
   userImage,
+  userId,
   description,
   metadataUrl,
   metadataTitle,
   metadataDescription,
   metadataImage,
 }) {
+  const  navigate = useNavigate();
+
   return (
     <Wrapper>
       <LeftColumn>
-        <Picture image_url={userImage} alt="User picture" />
+        <Picture image_url={userImage} alt="User picture"   />
       </LeftColumn>
       <RightColumn>
-        <Username>{username}</Username>
+        <Username onClick={()=>{navigate(`/user/${userId}`)}}>{username}</Username>
         <Description>{description}</Description>
         <a href={metadataUrl} target="_blank" rel="noreferrer">
           <Url>
@@ -72,6 +75,7 @@ const Username = styled.p`
   font-size: 19px;
   line-height: 23px;
   color: #ffffff;
+  cursor: pointer;
 
   @media (max-width: 650px) {
     font-size: 17px;
