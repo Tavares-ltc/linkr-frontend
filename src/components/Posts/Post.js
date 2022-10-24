@@ -34,6 +34,7 @@ function Post({
   const inputRef = useRef(0);
   const navigate = useNavigate();
   const toggleEditing = () => {
+    setDescriptionValue(description)
     setEditing(!isEditing);
   };
 
