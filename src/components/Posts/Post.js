@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { ReactTagify } from "react-tagify";
 import styled from "styled-components";
 import { Like } from "./like";
 import Picture from "./Picture";
@@ -7,7 +9,6 @@ import { deletePost, editPost } from "../../services/editPost";
 import { AiTwotoneDelete } from 'react-icons/ai';
 import { TiPencil } from "react-icons/ti" ;
 import { TailSpin } from 'react-loader-spinner';
-import { useNavigate } from "react-router-dom";
 
 function Post({
   id,
@@ -23,6 +24,12 @@ function Post({
   setRefresh,
   refresh
 }) {
+
+  const tagStyle = {
+    color: 'white',
+    fontWeight: 700,
+    cursor: 'pointer'
+  }
 
   Modal.setAppElement('#root');
   let  subtitle ; 
@@ -164,7 +171,15 @@ to delete this post?</h2>
       onChange={(e) => handleForm({
                 name:e.target.name,
                 value:e.target.value,
-            })}/> : <Description>{description}</Description>}
+            })}/> : <ReactTagify
+            tagStyle={tagStyle}
+            tagClicked={(tag) => {
+              console.log(tag);
+              navigate(`/hashtag/${tag.slice(1)}`);
+            }}
+          >
+          <Description>{description}</Description>
+          </ReactTagify>}
     </div>
         
         <a href={metadataUrl} target="_blank" rel="noreferrer">
@@ -189,7 +204,7 @@ to delete this post?</h2>
 const Wrapper = styled.div`
   display: flex;
   column-gap: 14px;
-  width: 100%;
+  width: 611px;
   background: #171717;
   border-radius: 16px;
   padding: 17px;

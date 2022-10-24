@@ -45,6 +45,7 @@ export default function SignUp() {
 			const JSONauth = JSON.stringify({
 				token: data.data.token,
 			});
+			console.log(JSONauth);
 			localStorage.setItem('linkr', JSONauth);
 			navigate('/timeline');
 		} catch (error) {

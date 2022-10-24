@@ -3,13 +3,13 @@ import { useState } from "react";
 import { postSignUp } from "../../services/linkr";
 import { TailSpin } from "react-loader-spinner";
 import {
-  Button,
-  Form,
-  Container,
-  LeftSide,
-  Linkr,
-  SignPage,
-} from "../../common/Formstyle";
+	Button,
+	Form,
+	Container,
+	LeftSide,
+	Linkr,
+	SignPage,
+} from '../../common/Formstyle';
 
 export default function SignUp() {
 	const [userSignUp, setUserSignUp] = useState({
