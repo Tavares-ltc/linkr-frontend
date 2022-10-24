@@ -1,27 +1,32 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Post from "./Post";
-import { getPosts } from "../../services/posts";
-import getToken from "../../services/getToken";
 import { FallingLines } from "react-loader-spinner";
+import { getUserPosts } from "../../services/userPage";
+import { useParams } from "react-router-dom";
 
-function Posts({ refresh, setRefresh }) {
-  const [posts, setPosts] = useState(false);
+function UserPosts({userData}) {
+  const [userPosts, setUserPosts] = useState('');
+  const { id } = useParams();
 
   useEffect(() => {
-    const token = getToken();
-    getPosts(token)
-      .then((res) => setPosts(res.data)
-      )
-      .catch(() =>
-        alert(
-          "An error occured while trying to fetch the posts, please refresh the page!"
-        )
-      );
-  }, [refresh]);
+    async function getPosts() {
+      try {
+        if(!id){
+          return;
+        }
+          const posts = await getUserPosts(id);
+          setUserPosts(posts.data);
+      } catch (error) {
+        console.log(error.response);
+      }
+    }
+    getPosts();
+  }, [id]);
+ 
 
   function noPostsYet() {
-    if (!posts) {
+    if (!userPosts) {
       return (
         <Loading>
           <FallingLines
@@ -33,30 +38,26 @@ function Posts({ refresh, setRefresh }) {
         </Loading>
       );
     }
-    if (posts.length === 0) {
-      return <NoPosts>There are no posts yet 😭</NoPosts>;
+    if (userPosts.length === 0) {
+      return <NoPosts>The user has no posts 😭</NoPosts>;
     }
   }
 
   return (
     <Wrapper>
-      {posts.length > 0
-        ? posts.map((post, key) => {
+      {userPosts.length > 0
+        ? userPosts.map((post, key) => {
             return (
               <Post
                 key={key}
-                id={key+1}
-                username={post.userName}
+                username={userData.name}
                 userId={post.userId}
-                userImage={post.userImage}
+                userImage={userData.image}
                 description={post.postDescription}
                 metadataUrl={post.metadataUrl}
                 metadataTitle={post.metadataTitle}
                 metadataDescription={post.metadataDescription}
                 metadataImage={post.metadataImage}
-                postId={post.id}
-                setRefresh={setRefresh}
-                refresh={refresh}
               />
             );
           })
@@ -89,4 +90,4 @@ const NoPosts = styled.div`
   font-size: 15px;
   margin-top: 40px;
 `;
-export default Posts;
+export default UserPosts;

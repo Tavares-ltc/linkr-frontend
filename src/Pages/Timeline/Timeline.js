@@ -6,6 +6,7 @@ import CreatePost from "../../components/Posts/CreatePost";
 import Posts from "../../components/Posts/Posts";
 import { useState } from "react";
 import Trending from "../../components/Trending/Trending";
+import Header from "../../components/Header";
 
 function Timeline() {
   const [refresh, setRefresh] = useState(false);
@@ -13,6 +14,7 @@ function Timeline() {
     <>
       <GlobalStyle />
       <Wrapper>
+        <Header/>
         <Title>
           <h1>timeline</h1>
         </Title>
@@ -35,7 +37,7 @@ const Wrapper = styled.div`
   align-items: center;
   margin: 0 auto;
   width: 100%;
-  margin-top: 78px;
+  margin-top: 100px;
 
   & > div {
     display: flex;

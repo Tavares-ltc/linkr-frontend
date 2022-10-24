@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import GlobalStyle from '../Assets/styles/GlobalStyle';
 import Header from './Header';
 import HashtagPage from '../Pages/Hashtag/HashtagPage';
+import UserTimeline from "../Pages/Timeline/UserTimeline";
+
 
 function App() {
 	return (
@@ -30,6 +32,14 @@ function App() {
 							<HashtagPage />
 						</PrivatePage>
 					}
+					/>
+					<Route
+						path="/user/:id"
+						element={
+							<PrivatePage>
+								<UserTimeline />
+							</PrivatePage>
+						}
 					/>
 				</Routes>
 			</BrowserRouter>
