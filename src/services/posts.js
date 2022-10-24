@@ -1,5 +1,4 @@
 import axios from "axios";
-
 const BASE_URL = "https://project-linkr-api.herokuapp.com";
 
 function getPosts(token) {
