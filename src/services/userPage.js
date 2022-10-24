@@ -1,7 +1,7 @@
 import axios from "axios";
 import getUserToken from "./getToken";
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = "https://git.heroku.com/project-linkr-api.git";
 const token = getUserToken()
 
 async function getUserById(userId) {

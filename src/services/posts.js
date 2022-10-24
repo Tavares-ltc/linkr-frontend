@@ -1,7 +1,7 @@
 import axios from "axios";
 
 function getPosts(token) {
-  const promise = axios.get("http://localhost:4000/posts", {
+  const promise = axios.get("https://git.heroku.com/project-linkr-api.git", {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -11,7 +11,7 @@ function getPosts(token) {
 
 function createPost(userId, description, link, token) {
   const promise = axios.post(
-    "http://localhost:4000/posts",
+    "https://git.heroku.com/project-linkr-api.git",
     {
       userId,
       description,
