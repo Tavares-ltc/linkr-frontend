@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Like } from "./like";
 import Picture from "./Picture";
 import  Modal  from  'react-modal';
 import { useEffect, useState, useRef } from "react";
@@ -7,7 +7,10 @@ import { deletePost, editPost } from "../../services/editPost";
 import { AiTwotoneDelete } from 'react-icons/ai';
 import { TiPencil } from "react-icons/ti" ;
 import { TailSpin } from 'react-loader-spinner';
+import { useNavigate } from "react-router-dom";
+
 function Post({
+  id,
   username,
   userImage,
   description,
@@ -29,6 +32,7 @@ function Post({
   const [isEditing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef(0);
+  const navigate = useNavigate();
   const toggleEditing = () => {
     setEditing(!isEditing);
   };
@@ -102,12 +106,11 @@ function Post({
     })
   }
 
-  const  navigate = useNavigate();
-
   return (
     <Wrapper>
       <LeftColumn>
-        <Picture image_url={userImage} alt="User picture"   />
+        <Picture image_url={userImage} alt="User picture" />
+        <Like id={id} />
       </LeftColumn>
       <RightColumn>
         <Header>
@@ -217,7 +220,6 @@ const Username = styled.p`
   font-size: 19px;
   line-height: 23px;
   color: #ffffff;
-  cursor: pointer;
 
   @media (max-width: 650px) {
     font-size: 17px;
