@@ -26,7 +26,7 @@ function SearchBar() {
         <Wrappler>
           <BsSearch size="0.4em" color="#C6C6C6"/>
         </Wrappler>
-        {usersList.length > 0 && <SearchBarResults usersList={usersList} />}
+        {usersList.length > 0 && <SearchBarResults usersList={usersList} setSearch={setSearch} />}
       </InputWrappler>
     </>
   );
