@@ -1,12 +1,14 @@
 import styled from "styled-components";
 import GlobalStyle from "../../Assets/styles/GlobalStyle";
 import Title from "../../components/Title/Title";
-import Header from "../../components/Header"
+import Header from "../../components/Header";
 import UserPosts from "../../components/Posts/UserPosts";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getUserById} from "../../services/userPage";
+import { getUserById } from "../../services/userPage";
+import FollowButton from "../../components/Posts/followButton";
+import Trending from "../../components/Trending/Trending";
 
 function UserTimeline() {
   const [error, setError] = useState({});
@@ -26,11 +28,10 @@ function UserTimeline() {
     getUserData(id);
   }, [id]);
 
-
   return (
     <>
       <GlobalStyle />
-        <Header/>
+      <Header />
       <Wrapper>
         <Title>
           {error.data ? (
@@ -38,12 +39,27 @@ function UserTimeline() {
           ) : (
             <h1>{userData.name}'s posts</h1>
           )}
+          <FollowButton />
         </Title>
-        <UserPosts userData={userData} />
+        <ContentWrappler>
+            <UserPosts userData={userData} />
+          <Trending />
+        </ContentWrappler>
       </Wrapper>
     </>
   );
 }
+const ContentWrappler = styled.div`
+  width: 937px;
+  display: flex;
+  @media (max-width: 650px) {
+    width: 100%;
+
+    div {
+      width: 100%;
+    }
+  }
+`;
 
 const Wrapper = styled.div`
   margin: 0 auto;

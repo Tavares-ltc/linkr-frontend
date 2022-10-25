@@ -5,23 +5,27 @@ function Title({ children }) {
 }
 
 const Wrapper = styled.div`
-  width: 937px;
+  width: 934px;
   text-align: start;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
   & > h1 {
     font-family: "Oswald", sans-serif;
     color: #fff;
     font-size: 43px;
     font-weight: 700;
-    line-height: 64px;
-    height: 64px;
-    margin-bottom: 43px;
+  
   }
+  margin-bottom: 43px;
 
   @media (max-width: 937px) {
     width: 611px;
   }
 
   @media (max-width: 650px) {
+    width: 100%;
     margin-left: 17px;
   }
 `;
