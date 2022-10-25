@@ -2,12 +2,13 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Like } from "./like";
 import Picture from "./Picture";
-import  Modal  from  'react-modal';
+import Modal from 'react-modal';
 import { useEffect, useState, useRef } from "react";
 import { deletePost, editPost } from "../../services/editPost";
 import { AiTwotoneDelete } from 'react-icons/ai';
-import { TiPencil } from "react-icons/ti" ;
+import { TiPencil } from "react-icons/ti";
 import { TailSpin } from 'react-loader-spinner';
+import { ReactTagify } from "react-tagify";
 
 function Post({
   id,
@@ -23,10 +24,15 @@ function Post({
   setRefresh,
   refresh
 }) {
+  const tagStyle = {
+    color: 'white',
+    fontWeight: 700,
+    cursor: 'pointer'
+  };
 
   Modal.setAppElement('#root');
-  let  subtitle ; 
-  const  [ modalIsOpen ,  setIsOpen ]  = useState(false) ;
+  let subtitle;
+  const [modalIsOpen, setIsOpen] = useState(false);
   const [formEdit, setFormEdit] = useState({});
   const [descriptionValue, setDescriptionValue] = useState(description);
   const [isEditing, setEditing] = useState(false);
@@ -38,54 +44,54 @@ function Post({
     setEditing(!isEditing);
   };
 
-  function  openModal ( )  { 
-    setIsOpen ( true ) ; 
+  function openModal() {
+    setIsOpen(true);
   }
 
-  function  afterOpenModal ( )  { 
-    subtitle.style.color='#f00'; 
+  function afterOpenModal() {
+    subtitle.style.color = '#f00';
   }
 
-  function  closeModal ( )  { 
-    setIsOpen ( false ) ; 
+  function closeModal() {
+    setIsOpen(false);
   }
 
-  const  customStyles  =  { 
-    content : { 
-      top : '50%' , 
-      left : '50%' , 
-      right : 'auto' , 
-      bottom : 'auto' , 
-      marginRight : '-50%' , 
-      transform : 'translate(-50%, -50%)' , 
-      background:'#333333',
-      borderRadius:'40px'
-    } , 
-  } ;
-  
-  
-  function handleForm({name, value}){
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      background: '#333333',
+      borderRadius: '40px'
+    },
+  };
+
+
+  function handleForm({ name, value }) {
     setDescriptionValue(value)
     setFormEdit({
-      ...formEdit,[name]:value,
+      ...formEdit, [name]: value,
     })
   }
 
-  function sendForm(e){
-    if(e.key ==="Escape"){
+  function sendForm(e) {
+    if (e.key === "Escape") {
       toggleEditing()
     }
-    if(e.key==="Enter"){
+    if (e.key === "Enter") {
       e.preventDefault();
-      editPost({formEdit, postId}).then((res)=>{
+      editPost({ formEdit, postId }).then((res) => {
         setDescriptionValue(formEdit.description)
         setRefresh(!refresh)
         toggleEditing()
       })
-      .catch((res) =>{
-        alert("Não foi possível salvar as alterações")
-      })
-    } 
+        .catch((res) => {
+          alert("Não foi possível salvar as alterações")
+        })
+    }
   }
 
   useEffect(() => {
@@ -94,17 +100,17 @@ function Post({
     }
   }, [isEditing]);
 
-  function deleteMyPost(){
+  function deleteMyPost() {
     setLoading(!loading)
-    deletePost(postId).then((res)=>{
+    deletePost(postId).then((res) => {
       setRefresh(!refresh)
       setDescriptionValue(description)
       closeModal()
     })
-    .catch((res) =>{
-      closeModal()
-      alert("Não foi possível deletar o post")
-    })
+      .catch((res) => {
+        closeModal()
+        alert("Não foi possível deletar o post")
+      })
   }
 
   return (
@@ -115,59 +121,65 @@ function Post({
       </LeftColumn>
       <RightColumn>
         <Header>
-      <UserColumn>
-      <Username onClick={()=>{navigate(`/user/${userId}`)}}>{username}</Username>
-      </UserColumn>
-      <EditColumn>
-      <TiPencil onClick={toggleEditing}/>
-      < div > 
-      <AiTwotoneDelete  onClick = { openModal } /> 
-      < Modal 
-        isOpen = { modalIsOpen } 
-        onAfterOpen = { afterOpenModal } 
-        onRequestClose = { closeModal } 
-        style = { customStyles } 
-        contentLabel = "Example Modal" 
-      > 
-      <BackModal>
-        < h2  ref = { (subtitle )  =>  (subtitle=subtitle )}>Are you sure you want
-to delete this post?</h2>
-      <BlockButtons>
-      {loading ? <TailSpin 
-        color='#ffffff' 
-        width='10' 
-        /> : 
-       <>
-       <ButtonClose 
-        onClick = { closeModal }
-        > No, go back 
-       </ButtonClose> 
-       <ExcludeButton 
-        onClick = { deleteMyPost }> 
-        Yes, delete it 
-       </ExcludeButton> 
-     </> 
-     }
-        
-        </BlockButtons>
-        </BackModal>
-      </Modal> 
-    </div> 
-      </EditColumn>
-      </Header>
-      <div>
-      {isEditing ? <InputEdit
-      ref={inputRef} 
-      name="description" 
-      value={descriptionValue} 
-      onKeyPress={(event)=> sendForm(event)} 
-      onChange={(e) => handleForm({
-                name:e.target.name,
-                value:e.target.value,
-            })}/> : 
-          <Description>{description}</Description>}
-    </div>
-        
+          <UserColumn>
+            <Username onClick={() => { navigate(`/user/${userId}`) }}>{username}</Username>
+          </UserColumn>
+          <EditColumn>
+            <TiPencil onClick={toggleEditing} />
+            < div >
+              <AiTwotoneDelete onClick={openModal} />
+              < Modal
+                isOpen={modalIsOpen}
+                onAfterOpen={afterOpenModal}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+              >
+                <BackModal>
+                  < h2 ref={(subtitle) => (subtitle = subtitle)}>Are you sure you want
+                    to delete this post?</h2>
+                  <BlockButtons>
+                    {loading ? <TailSpin
+                      color='#ffffff'
+                      width='10'
+                    /> :
+                      <>
+                        <ButtonClose
+                          onClick={closeModal}
+                        > No, go back
+                        </ButtonClose>
+                        <ExcludeButton
+                          onClick={deleteMyPost}>
+                          Yes, delete it
+                        </ExcludeButton>
+                      </>
+                    }
+
+                  </BlockButtons>
+                </BackModal>
+              </Modal>
+            </div>
+          </EditColumn>
+        </Header>
+        <div>
+          {isEditing ? <InputEdit
+            ref={inputRef}
+            name="description"
+            value={descriptionValue}
+            onKeyPress={(event) => sendForm(event)}
+            onChange={(e) => handleForm({
+              name: e.target.name,
+              value: e.target.value,
+            })} /> :
+            <ReactTagify
+              tagStyle={tagStyle}
+              tagClicked={(tag) => navigate(`/hashtag/${tag.slice(1)}`)}
+            >
+              <Description>{description}</Description>
+            </ReactTagify>
+          }
+        </div>
+
         <a href={metadataUrl} target="_blank" rel="noreferrer">
           <Url>
             <LeftSide>
