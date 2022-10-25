@@ -45,7 +45,7 @@ function Posts({ refresh, setRefresh }) {
             return (
               <Post
                 key={key}
-                id={key+1}
+                postId={post.id}
                 username={post.userName}
                 userId={post.userId}
                 userImage={post.userImage}
