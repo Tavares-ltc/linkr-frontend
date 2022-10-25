@@ -11,10 +11,10 @@ export function Like({ postId }) {
     const [clicked, setClicked] = useState(false);
     const [likes, setLikes] = useState();
     const [toolTip, setToolTip] = useState();
-    const { userdata } = useContext(userContext);
-    const [userId, setUserId] = useState(userdata.id);
+    // const { userdata } = useContext(userContext);
+    const [userId, setUserId] = useState(13);
     const [token, setToken] = useState("");
-    const apiUrl = "http://localhost:4000";
+    const apiUrl = "https://project-linkr-api.herokuapp.com";
 
     useEffect(() => {
         const URL = `${apiUrl}/like?postId=${postId}`;

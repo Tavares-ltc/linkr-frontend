@@ -11,13 +11,13 @@ export default function Header() {
   const [button, setButton] = useState(false);
   const navigate = useNavigate();
   const [user, setUser] = useState("");
-  const { setUserdata } = useContext(userContext);
+  // const { setUserdata } = useContext(userContext);
 
   useEffect(() => {
     const userToken = getToken();
     getUser(userToken)
       .then((res) => {
-        setUserdata(res.data)
+        // setUserdata(res.data)
         setUser({ ...res.data })
       })
       .catch(() =>

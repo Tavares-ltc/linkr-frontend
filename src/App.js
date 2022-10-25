@@ -12,6 +12,7 @@ import { useState } from "react";
 function App() {
   const [userdata, setUserdata] = useState();
   const contextValue = { userdata, setUserdata };
+  console.log(contextValue)
   return (
     <>
       <userContext.Provider value={contextValue}>

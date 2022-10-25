@@ -10,7 +10,6 @@ import { TiPencil } from "react-icons/ti" ;
 import { TailSpin } from 'react-loader-spinner';
 
 function Post({
-  postId,
   username,
   userImage,
   description,
