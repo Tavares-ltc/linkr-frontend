@@ -10,7 +10,6 @@ import { TiPencil } from "react-icons/ti";
 import { TailSpin } from "react-loader-spinner";
 
 function Post({
-  id,
   username,
   userImage,
   description,
@@ -112,7 +111,7 @@ function Post({
     <Wrapper>
       <LeftColumn>
         <Picture image_url={userImage} alt="User picture" />
-        <Like id={id} />
+        <Like postId={postId} />
       </LeftColumn>
       <RightColumn>
         <Header>
