@@ -98,6 +98,7 @@ export function Like({ postId }) {
                 }
             }
         }
+        
         setToolTip(text);
     }
 
