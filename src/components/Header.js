@@ -66,7 +66,7 @@ export default function Header() {
             />
           )}
 
-          <img src={user.image} alt="User iamge" />
+          <img src={user.image} alt="" />
         </RighSide>
         {button ? (
           <LogOutButton onClick={exitUser}>Logout</LogOutButton>

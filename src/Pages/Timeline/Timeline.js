@@ -5,7 +5,9 @@ import Title from "../../components/Title/Title";
 import CreatePost from "../../components/Posts/CreatePost";
 import Posts from "../../components/Posts/Posts";
 import { useState } from "react";
+import Trending from "../../components/Trending/Trending";
 import Header from "../../components/Header";
+
 function Timeline() {
   const [refresh, setRefresh] = useState(false);
   return (
@@ -16,8 +18,13 @@ function Timeline() {
         <Title>
           <h1>timeline</h1>
         </Title>
-        <CreatePost refresh={refresh} setRefresh={setRefresh} />
-        <Posts refresh={refresh} />
+        <div>
+          <div>
+            <CreatePost refresh={refresh} setRefresh={setRefresh} />
+            <Posts refresh={refresh} />
+          </div>
+          <Trending />
+        </div>
       </Wrapper>
     </>
   );
@@ -25,10 +32,24 @@ function Timeline() {
 }
 
 const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 0 auto;
-  max-width: 611px;
   width: 100%;
   margin-top: 100px;
+
+  & > div {
+    display: flex;
+
+    @media (max-width: 650px) {
+      width: 100%;
+
+      div {
+        width: 100%;
+      }
+    }
+  }
 `;
 
 export default Timeline;

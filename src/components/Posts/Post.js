@@ -1,6 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Like } from "./like";
 import Picture from "./Picture";
+import  Modal  from  'react-modal';
+import { useEffect, useState, useRef } from "react";
+import { deletePost, editPost } from "../../services/editPost";
+import { AiTwotoneDelete } from 'react-icons/ai';
+import { TiPencil } from "react-icons/ti" ;
+import { TailSpin } from 'react-loader-spinner';
 
 function Post({
   postId,
@@ -11,7 +18,95 @@ function Post({
   metadataTitle,
   metadataDescription,
   metadataImage,
+  postId,
+  userId,
+  setRefresh,
+  refresh
 }) {
+
+  Modal.setAppElement('#root');
+  let  subtitle ; 
+  const  [ modalIsOpen ,  setIsOpen ]  = useState(false) ;
+  const [formEdit, setFormEdit] = useState({});
+  const [descriptionValue, setDescriptionValue] = useState(description);
+  const [isEditing, setEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const inputRef = useRef(0);
+  const navigate = useNavigate();
+  const toggleEditing = () => {
+    setDescriptionValue(description)
+    setEditing(!isEditing);
+  };
+
+  function  openModal ( )  { 
+    setIsOpen ( true ) ; 
+  }
+
+  function  afterOpenModal ( )  { 
+    subtitle.style.color='#f00'; 
+  }
+
+  function  closeModal ( )  { 
+    setIsOpen ( false ) ; 
+  }
+
+  const  customStyles  =  { 
+    content : { 
+      top : '50%' , 
+      left : '50%' , 
+      right : 'auto' , 
+      bottom : 'auto' , 
+      marginRight : '-50%' , 
+      transform : 'translate(-50%, -50%)' , 
+      background:'#333333',
+      borderRadius:'40px'
+    } , 
+  } ;
+  
+  
+  function handleForm({name, value}){
+    setDescriptionValue(value)
+    setFormEdit({
+      ...formEdit,[name]:value,
+    })
+  }
+
+  function sendForm(e){
+    if(e.key ==="Escape"){
+      toggleEditing()
+    }
+    if(e.key==="Enter"){
+      e.preventDefault();
+      editPost({formEdit, postId}).then((res)=>{
+        setDescriptionValue(formEdit.description)
+        setRefresh(!refresh)
+        toggleEditing()
+      })
+      .catch((res) =>{
+        alert("Não foi possível salvar as alterações")
+      })
+    } 
+  }
+
+  useEffect(() => {
+    if (isEditing) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
+
+  function deleteMyPost(){
+    setLoading(!loading)
+    deletePost(postId).then((res)=>{
+      setRefresh(!refresh)
+      setDescriptionValue(description)
+      closeModal()
+    })
+    .catch((res) =>{
+      closeModal()
+      alert("Não foi possível deletar o post")
+    })
+  }
+
   return (
     <Wrapper>
       <LeftColumn>
@@ -19,8 +114,60 @@ function Post({
         <Like postId={postId} />
       </LeftColumn>
       <RightColumn>
-        <Username>{username}</Username>
-        <Description>{description}</Description>
+        <Header>
+      <UserColumn>
+      <Username onClick={()=>{navigate(`/user/${userId}`)}}>{username}</Username>
+      </UserColumn>
+      <EditColumn>
+      <TiPencil onClick={toggleEditing}/>
+      < div > 
+      <AiTwotoneDelete  onClick = { openModal } /> 
+      < Modal 
+        isOpen = { modalIsOpen } 
+        onAfterOpen = { afterOpenModal } 
+        onRequestClose = { closeModal } 
+        style = { customStyles } 
+        contentLabel = "Example Modal" 
+      > 
+      <BackModal>
+        < h2  ref = { (subtitle )  =>  (subtitle=subtitle )}>Are you sure you want
+to delete this post?</h2>
+      <BlockButtons>
+      {loading ? <TailSpin 
+        color='#ffffff' 
+        width='10' 
+        /> : 
+       <>
+       <ButtonClose 
+        onClick = { closeModal }
+        > No, go back 
+       </ButtonClose> 
+       <ExcludeButton 
+        onClick = { deleteMyPost }> 
+        Yes, delete it 
+       </ExcludeButton> 
+     </> 
+     }
+        
+        </BlockButtons>
+        </BackModal>
+      </Modal> 
+    </div> 
+      </EditColumn>
+      </Header>
+      <div>
+      {isEditing ? <InputEdit
+      ref={inputRef} 
+      name="description" 
+      value={descriptionValue} 
+      onKeyPress={(event)=> sendForm(event)} 
+      onChange={(e) => handleForm({
+                name:e.target.name,
+                value:e.target.value,
+            })}/> : 
+          <Description>{description}</Description>}
+    </div>
+        
         <a href={metadataUrl} target="_blank" rel="noreferrer">
           <Url>
             <LeftSide>
@@ -43,7 +190,7 @@ function Post({
 const Wrapper = styled.div`
   display: flex;
   column-gap: 14px;
-  width: 100%;
+  width: 611px;
   background: #171717;
   border-radius: 16px;
   padding: 17px;
@@ -202,5 +349,79 @@ const Link = styled.p`
     margin-bottom: 10px;
   }
 `;
+
+const EditColumn = styled.div`
+  color:white;
+  display:flex;
+  justify-content: space-around;
+`
+
+const UserColumn = styled.div`
+  max-width:80%;
+`
+const Header = styled.div`
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+`
+const BlockButtons = styled.div`
+  display:flex;
+  width:40%;
+  justify-content:space-around;
+  margin:10px 10px;
+`
+const BackModal = styled.div`
+  height:100px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background-color:#333333;
+  border-radius:10px;
+  color:#FFFFFF;
+
+  h2{
+    font-family: "Lato";
+    font-size:34px;
+  }
+`
+
+const ButtonClose = styled.div`
+  width:90px;
+  height:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-family: "Lato";
+  background-color:#FFFFFF;
+  color:#1877F2;
+  border: solid 1px #FFFFFF;
+  text-align: center;
+  border-radius:4px;
+  cursor: pointer;
+`
+
+const ExcludeButton = styled.div`
+  width:90px;
+  height:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-family: "Lato";
+  background-color:#1877F2;
+  color:#FFFFFF; 
+  border: solid 1px #1877F2;
+  text-align: center;
+  border-radius:4px;
+  cursor: pointer;
+`
+
+const InputEdit = styled.input`
+  width:90%;
+  height:45px;
+  border-style:none;
+`
 
 export default Post;

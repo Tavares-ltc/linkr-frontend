@@ -5,6 +5,8 @@ function Title({ children }) {
 }
 
 const Wrapper = styled.div`
+  width: 937px;
+  text-align: start;
   & > h1 {
     font-family: "Oswald", sans-serif;
     color: #fff;
@@ -13,6 +15,10 @@ const Wrapper = styled.div`
     line-height: 64px;
     height: 64px;
     margin-bottom: 43px;
+  }
+
+  @media (max-width: 937px) {
+    width: 611px;
   }
 
   @media (max-width: 650px) {

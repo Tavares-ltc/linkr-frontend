@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { postSignIn } from '../../services/linkr';
 import { TailSpin } from 'react-loader-spinner';
 import {
@@ -10,6 +10,8 @@ import {
 	Linkr,
 	SignPage,
 } from '../../common/Formstyle';
+
+
 
 export default function SignUp() {
 	const [userLogin, setUserLogin] = useState({
@@ -23,6 +25,13 @@ export default function SignUp() {
 		message: '',
 	});
 	const navigate = useNavigate();
+	
+	useEffect(()=> {
+		const token = JSON.parse(localStorage.getItem("linkr"))?.token;
+		if(token){
+			navigate("/timeline")
+		}
+	}, [])
 
 	async function handleForm(e) {
 		e.preventDefault();
@@ -36,6 +45,7 @@ export default function SignUp() {
 			const JSONauth = JSON.stringify({
 				token: data.data.token,
 			});
+			console.log(JSONauth);
 			localStorage.setItem('linkr', JSONauth);
 			navigate('/timeline');
 		} catch (error) {

@@ -24,7 +24,7 @@ function UserTimeline() {
       }
     }
     getUserData(id);
-  }, []);
+  }, [id]);
 
 
   return (
