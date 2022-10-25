@@ -1,38 +1,25 @@
 import styled from 'styled-components';
 import { FaRegHeart, FaHeart } from 'react-icons/fa';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import ReactTooltip from 'react-tooltip';
 import getToken from '../../services/getToken';
 import getUser from "../../services/getUser";
+import userContext from '../../contexts/userContext';
 
-export function Like({ id }) {
+export function Like({ postId }) {
     const [clicked, setClicked] = useState(false);
     const [likes, setLikes] = useState();
     const [toolTip, setToolTip] = useState();
-    const [userId, setUserId] = useState();
+    const { userdata } = useContext(userContext);
+    const [userId, setUserId] = useState(userdata.id);
     const [token, setToken] = useState("");
     const apiUrl = "http://localhost:4000";
 
     useEffect(() => {
-        const userToken = getToken();
-        setToken(userToken);
-        if (token) {
-            getUser(token)
-                .then((res) => {
-                    setUserId(res.data.id)
-                })
-                .catch(() =>
-                    alert(
-                        "An error occured while trying to fetch the posts, please refresh the page!"
-                    )
-                );
-        }
-    }, [token]);
+        const URL = `${apiUrl}/like?postId=${postId}`;
 
-    useEffect(() => {
-        const URL = `${apiUrl}/like?postId=${id}`;
-
+        console.log()
         const promise = axios.get(URL);
         promise.then((res) => {
             setLikes(res.data);
@@ -46,7 +33,6 @@ export function Like({ id }) {
     }, [clicked]);
 
     function click() {
-        const postId = id;
         const AUT = token;
         const BODY = { userId, postId };
 
@@ -66,7 +52,7 @@ export function Like({ id }) {
                 )
         }
 
-        axios.get(`${apiUrl}/like?postId=${id}`)
+        axios.get(`${apiUrl}/like?postId=${postId}`)
             .then((res) => {
                 console.log(res.data)
                 setLikes(res.data);
@@ -94,20 +80,24 @@ export function Like({ id }) {
                     }
                 } else {
                     let i = 0;
-
-                    if (data.filter(value => value.likerId === userId).length) {
-                        text += "Voce, "
+                    if (data.length === 2) {
+                        text = `${data[0].name} e ${data[1].name} curtiu `;
                     } else {
-                        while (data[i].likerId === userId) {
-                            i++;
+                        if (data.filter(value => value.likerId === userId).length) {
+                            text += "Voce, "
+                        } else {
+                            while (data[i].likerId === userId) {
+                                i++;
+                            }
+                            text += `${data[i].name}, `;
                         }
-                        text += `${data[i].name}, `;
+                        let j = 0;
+                        console.log(data)
+                        while ((data[j].likerId === userId || data[i].name === data[j].name)) {
+                            j++;
+                        }
+                        text += `${data[j].name} e outras ${data.length - 2} pessoas`;
                     }
-                    let j = 0;
-                    while ((data[j].likerId === userId || data[i].name === data[j].name)) {
-                        j++;
-                    }
-                    text += `${data[j].name} e outras ${data.length - 2} pessoas`;
                 }
             }
         }

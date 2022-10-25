@@ -3,7 +3,7 @@ import { Like } from "./like";
 import Picture from "./Picture";
 
 function Post({
-  id,
+  postId,
   username,
   userImage,
   description,
@@ -16,7 +16,7 @@ function Post({
     <Wrapper>
       <LeftColumn>
         <Picture image_url={userImage} alt="User picture" />
-        <Like id={id} />
+        <Like postId={postId} />
       </LeftColumn>
       <RightColumn>
         <Username>{username}</Username>
