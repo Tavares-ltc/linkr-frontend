@@ -11,15 +11,14 @@ export function Like({ postId }) {
     const [clicked, setClicked] = useState(false);
     const [likes, setLikes] = useState();
     const [toolTip, setToolTip] = useState();
-    // const { userdata } = useContext(userContext);
-    const [userId, setUserId] = useState(13);
+    const { userdata } = useContext(userContext);
+    const [userId, setUserId] = useState(userdata.id);
     const [token, setToken] = useState("");
     const apiUrl = "https://project-linkr-api.herokuapp.com";
 
     useEffect(() => {
         const URL = `${apiUrl}/like?postId=${postId}`;
 
-        console.log()
         const promise = axios.get(URL);
         promise.then((res) => {
             setLikes(res.data);
@@ -54,7 +53,6 @@ export function Like({ postId }) {
 
         axios.get(`${apiUrl}/like?postId=${postId}`)
             .then((res) => {
-                console.log(res.data)
                 setLikes(res.data);
                 populateTooTip(res.data);
             }
@@ -92,7 +90,6 @@ export function Like({ postId }) {
                             text += `${data[i].name}, `;
                         }
                         let j = 0;
-                        console.log(data)
                         while ((data[j].likerId === userId || data[i].name === data[j].name)) {
                             j++;
                         }
