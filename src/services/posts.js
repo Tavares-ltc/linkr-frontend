@@ -17,7 +17,7 @@ function createPost(userId, hashtags, description, link, token) {
       userId,
       description,
       link,
-      hashtags
+      hashtags,
     },
     {
       headers: {
