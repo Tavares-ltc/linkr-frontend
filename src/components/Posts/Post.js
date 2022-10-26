@@ -10,7 +10,7 @@ import { TiPencil } from 'react-icons/ti';
 import { TailSpin } from 'react-loader-spinner';
 import { AiOutlineComment } from 'react-icons/ai';
 import Comments from './Comments';
-import { getComments } from '../../services/comments';
+import { getComments, getCommentsCount } from '../../services/comments';
 import getToken from '../../services/getToken';
 
 function Post({
@@ -36,12 +36,26 @@ function Post({
 	const [loading, setLoading] = useState(false);
 	const [showComments, setShowComments] = useState(false);
 	const [comments, setComments] = useState([]);
+	const [commentsCount, setCommentsCount] = useState([]);
 	const inputRef = useRef(0);
 	const navigate = useNavigate();
 	const toggleEditing = () => {
 		setDescriptionValue(description);
 		setEditing(!isEditing);
 	};
+
+	useEffect(() => {
+		const token = getToken();
+		getCommentsCount(token, postId)
+			.then((res) => setCommentsCount(res.data))
+			.catch(() =>
+				alert(
+					'An error occured while trying to fetch the comments, please refresh the page!'
+				)
+			);
+
+		console.log(commentsCount);
+	}, [refresh]);
 
 	function openModal() {
 		setIsOpen(true);
@@ -87,6 +101,7 @@ function Post({
 					setDescriptionValue(formEdit.description);
 					setRefresh(!refresh);
 					toggleEditing();
+					console.log('entrou aki');
 				})
 				.catch((res) => {
 					alert('Não foi possível salvar as alterações');
@@ -115,17 +130,7 @@ function Post({
 	}
 
 	async function openComments() {
-		const token = getToken();
-		getComments(token, postId)
-			.then((res) => setComments(res.data))
-			.catch(() =>
-				alert(
-					'An error occured while trying to fetch the comments, please refresh the page!'
-				)
-			);
-
-		console.log(comments);
-
+		console.log(commentsCount);
 		setShowComments(!showComments);
 	}
 
@@ -137,7 +142,7 @@ function Post({
 					<Like id={id} />
 					<CommentIconBox>
 						<AiOutlineComment onClick={openComments} />
-						<p>{comments.length} comments</p>
+						<p>{commentsCount} comments</p>
 					</CommentIconBox>
 				</LeftColumn>
 				<RightColumn>
@@ -229,6 +234,9 @@ function Post({
 						postId={postId}
 						userId={userId}
 						comments={comments}
+						setComments={setComments}
+						refresh={refresh}
+						setRefresh={setRefresh}
 					/>
 				</>
 			) : (

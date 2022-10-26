@@ -10,6 +10,15 @@ function getComments(token, postId) {
 	return promise;
 }
 
+function getCommentsCount(token, postId) {
+	const promise = axios.get(`${BASE_URL}/commentscount/${postId}`, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+	return promise;
+}
+
 async function postComment(token, body) {
 	const promise = await axios.post(`${BASE_URL}/comments`, body, {
 		headers: {
@@ -19,4 +28,4 @@ async function postComment(token, body) {
 	return promise;
 }
 
-export { getComments, postComment };
+export { getComments, postComment, getCommentsCount };

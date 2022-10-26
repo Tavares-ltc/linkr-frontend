@@ -6,18 +6,33 @@ import Comment from './Comment';
 import { FallingLines } from 'react-loader-spinner';
 import { postComment } from '../../services/comments';
 import getToken from '../../services/getToken';
+import { getComments } from '../../services/comments';
 
-export default function Comments({ userImage, postId, userId, comments }) {
-	console.log(comments);
-
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState({
-		isError: false,
-		message: '',
-	});
+export default function Comments({
+	userImage,
+	postId,
+	userId,
+	comments,
+	setComments,
+	setRefresh,
+	refresh,
+}) {
+	const [refresh2, setRefresh2] = useState(false);
 	const [message, setMessage] = useState({
 		message: '',
 	});
+	useEffect(() => {
+		const token = getToken();
+		getComments(token, postId)
+			.then((res) => {
+				setComments(res.data);
+			})
+			.catch(() =>
+				alert(
+					'An error occured while trying to fetch the comments, please refresh the page!'
+				)
+			);
+	}, [refresh2]);
 
 	function handleMessage(e) {
 		let value = e.target.value;
@@ -26,24 +41,11 @@ export default function Comments({ userImage, postId, userId, comments }) {
 	async function sendMessage(e) {
 		e.preventDefault();
 		const token = getToken();
+		message.postId = postId;
+		message.userId = userId;
 
-		try {
-			console.log(message.message);
-			message.postId = postId;
-			message.userId = userId;
-			console.log(message);
-			console.log(token);
-
-			await postComment(token, message);
-
-			//navigate("/");
-		} catch (error) {
-			setLoading(!loading);
-			setError({
-				isError: true,
-				message: error.response.data,
-			});
-		}
+		postComment(token, message);
+		setRefresh2(!refresh2);
 	}
 
 	function noPostsYet() {
