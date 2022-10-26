@@ -11,13 +11,26 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 70px;
-  & > h1 {
+  
+  img:first-child{
+    width: 40px;
+    height: 40px;
+    border-radius: 30px;
+    margin-right:20px;
+  }
+  div:first-child{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    & > h1 {
     font-family: "Oswald", sans-serif;
     color: #fff;
     font-size: 43px;
     font-weight: 700;
   
   }
+  }
+
   margin-bottom: 43px;
 
   @media (max-width: 937px) {

@@ -14,7 +14,7 @@ function checkFollowing(personId) {
 }
 
 function follow(personId) {
-  return axios.post(`${BASE_URL}/follow/${personId}`, {
+  return axios.post(`${BASE_URL}/follow`,{personId}, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

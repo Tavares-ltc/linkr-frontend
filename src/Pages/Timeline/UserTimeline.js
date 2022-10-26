@@ -37,12 +37,16 @@ function UserTimeline() {
           {error.data ? (
             <h1>{error.data}</h1>
           ) : (
-            <h1>{userData.name}'s posts</h1>
+            <div>
+              <img src={userData.image} />
+              <h1>{userData.name}'s posts</h1>
+            </div>
+            
           )}
           <FollowButton />
         </Title>
         <ContentWrappler>
-            <UserPosts userData={userData} />
+          <UserPosts userData={userData} />
           <Trending />
         </ContentWrappler>
       </Wrapper>
@@ -67,5 +71,10 @@ const Wrapper = styled.div`
   width: 100%;
   margin-top: 100px;
 `;
-
+const NameWrappler = styled.div`
+  img{
+    width: 30px;
+    border-radius: 25px;
+  }
+  `
 export default UserTimeline;
