@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "https://project-linkr-api.herokuapp.com";
+const BASE_URL = "http://localhost:4000";
 
 function getPosts(token) {
   const promise = axios.get(`${BASE_URL}/posts`, {
@@ -17,7 +17,7 @@ function createPost(userId, hashtags, description, link, token) {
       userId,
       description,
       link,
-      hashtags
+      hashtags,
     },
     {
       headers: {
