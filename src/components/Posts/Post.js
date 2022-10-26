@@ -7,9 +7,11 @@ import { useEffect, useState, useRef } from 'react';
 import { deletePost, editPost } from '../../services/editPost';
 import { AiTwotoneDelete } from 'react-icons/ai';
 import { TiPencil } from 'react-icons/ti';
-import { FiSend } from 'react-icons/fi';
 import { TailSpin } from 'react-loader-spinner';
 import { AiOutlineComment } from 'react-icons/ai';
+import Comments from './Comments';
+import { getComments } from '../../services/comments';
+import getToken from '../../services/getToken';
 
 function Post({
 	id,
@@ -33,6 +35,7 @@ function Post({
 	const [isEditing, setEditing] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [showComments, setShowComments] = useState(false);
+	const [comments, setComments] = useState([]);
 	const inputRef = useRef(0);
 	const navigate = useNavigate();
 	const toggleEditing = () => {
@@ -111,7 +114,18 @@ function Post({
 			});
 	}
 
-	function openComments() {
+	async function openComments() {
+		const token = getToken();
+		getComments(token, postId)
+			.then((res) => setComments(res.data))
+			.catch(() =>
+				alert(
+					'An error occured while trying to fetch the comments, please refresh the page!'
+				)
+			);
+
+		console.log(comments);
+
 		setShowComments(!showComments);
 	}
 
@@ -123,7 +137,7 @@ function Post({
 					<Like id={id} />
 					<CommentIconBox>
 						<AiOutlineComment onClick={openComments} />
-						<p>10 comments</p>
+						<p>{comments.length} comments</p>
 					</CommentIconBox>
 				</LeftColumn>
 				<RightColumn>
@@ -210,68 +224,12 @@ function Post({
 
 			{showComments ? (
 				<>
-					<ComentPageWrapper>
-						<FakeHeader>AEWWWW</FakeHeader>
-						<CommentBox>
-							<Picture image_url={userImage} alt='User picture' />
-							<AuthorMessageBox>
-								<AuthorFollower>
-									<h1>Luciano</h1>
-									<span>following</span>
-								</AuthorFollower>
-
-								<p>muito legal!</p>
-							</AuthorMessageBox>
-						</CommentBox>
-						<CommentBox>
-							<Picture image_url={userImage} alt='User picture' />
-							<AuthorMessageBox>
-								<AuthorFollower>
-									<h1>Luciano</h1>
-									<span>following</span>
-								</AuthorFollower>
-
-								<p>muito legal!</p>
-							</AuthorMessageBox>
-						</CommentBox>
-						<CommentBox>
-							<Picture image_url={userImage} alt='User picture' />
-							<AuthorMessageBox>
-								<AuthorFollower>
-									<h1>Luciano</h1>
-									<span>following</span>
-								</AuthorFollower>
-
-								<p>muito legal!</p>
-							</AuthorMessageBox>
-						</CommentBox>
-						<CommentBox>
-							<Picture image_url={userImage} alt='User picture' />
-							<AuthorMessageBox>
-								<AuthorFollower>
-									<h1>Luciano</h1>
-									<span>following</span>
-								</AuthorFollower>
-
-								<p>muito legal!</p>
-							</AuthorMessageBox>
-						</CommentBox>
-						<WritterImputBox>
-							<Picture image_url={userImage} alt='User picture' />
-							<input
-								autoComplete='off'
-								type='text'
-								name='password'
-								//value={userLogin.password}
-								//onChange={handleSignIn}
-								placeholder='write a comment...'
-								required
-							/>
-							<IconWrappler>
-								<FiSend />
-							</IconWrappler>
-						</WritterImputBox>
-					</ComentPageWrapper>
+					<Comments
+						userImage={userImage}
+						postId={postId}
+						userId={userId}
+						comments={comments}
+					/>
 				</>
 			) : (
 				<></>
@@ -296,117 +254,9 @@ const CommentIconBox = styled.div`
 	}
 `;
 
-const FakeHeader = styled.div`
-	z-index: -10;
-	width: 577px;
-	height: 15px;
-	background: #1e1e1e;
-	top: 231px;
-`;
-
-const CommentBox = styled.div`
-	width: 577px;
-	height: 72px;
-	display: flex;
-	border-bottom: 1px solid #353535;
-	gap: 15px;
-	align-items: center;
-`;
-
-const AuthorMessageBox = styled.div`
-	p {
-		color: #acacac;
-		font-family: 'Lato';
-		font-style: normal;
-		font-weight: 400;
-		font-size: 14px;
-		line-height: 17px;
-	}
-`;
-const AuthorFollower = styled.div`
-	display: flex;
-	gap: 15px;
-	h1 {
-		color: #f3f3f3;
-		font-family: 'Lato';
-		font-style: normal;
-		font-weight: 700;
-		font-size: 14px;
-		line-height: 17px;
-	}
-	span {
-		color: #565656;
-		font-family: 'Lato';
-		font-style: normal;
-		font-weight: 400;
-		font-size: 14px;
-		line-height: 17px;
-	}
-`;
 const PostWrapper = styled.div`
 	width: 611px;
 	margin-bottom: 40px;
-`;
-const ComentPageWrapper = styled.div`
-	z-index: 0;
-	position: relative;
-	top: -15px;
-	display: flex;
-	flex-direction: column;
-	width: 611px;
-	height: 100%;
-	background: #1e1e1e;
-	border-radius: 0 0 16px 16px;
-	padding: 0 17px;
-	color: white;
-	img {
-		width: 39px;
-		height: 39px;
-	}
-
-	input {
-		font-family: 'Lato';
-		font-weight: 400;
-		font-size: 12px;
-		width: 100%;
-		height: 39px;
-		border-radius: 8px;
-		padding-left: 10px;
-		font-size: 20px;
-		font-weight: 500;
-		background-color: #252525;
-		border: none;
-		color: #acacac;
-	}
-
-	input::placeholder {
-		font-size: 14px;
-		font-weight: 500;
-		color: #575757;
-		font-style: italic;
-	}
-
-	input:focus {
-		outline: 0.5px solid grey;
-	}
-
-	@media (max-width: 650px) {
-		border-radius: 0;
-	}
-`;
-
-const IconWrappler = styled.div`
-	position: absolute;
-	right: 15px;
-	bottom: 23px;
-`;
-
-const WritterImputBox = styled.div`
-	position: relative;
-	height: 72px;
-	display: flex;
-	gap: 15px;
-	align-items: center;
 `;
 
 const Wrapper = styled.div`
@@ -414,8 +264,7 @@ const Wrapper = styled.div`
 	z-index: 1;
 	display: flex;
 	justify-content: space-between;
-
-	//column-gap: 14px;
+	gap: 14px;
 	width: 611px;
 	background: #171717;
 	border-radius: 16px;
@@ -442,7 +291,7 @@ const LeftColumn = styled.div`
 const RightColumn = styled.div`
 	display: flex;
 	flex-direction: column;
-	row-gap: 7px; */
+	row-gap: 7px;
 	width: 100%;
 
 	& a {
