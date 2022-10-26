@@ -37,11 +37,10 @@ function UserTimeline() {
           {error.data ? (
             <h1>{error.data}</h1>
           ) : (
-            <div>
+            <UserWrappler>
               <img src={userData.image} />
               <h1>{userData.name}'s posts</h1>
-            </div>
-            
+            </UserWrappler>
           )}
           <FollowButton />
         </Title>
@@ -71,10 +70,21 @@ const Wrapper = styled.div`
   width: 100%;
   margin-top: 100px;
 `;
-const NameWrappler = styled.div`
+const UserWrappler = styled.div`
   img{
-    width: 30px;
-    border-radius: 25px;
-  }
-  `
+    width: 40px;
+    height: 40px;
+    border-radius: 30px;
+    margin-right:20px;
+    }
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    & > h1 {
+    font-family: "Oswald", sans-serif;
+    color: #fff;
+    font-size: 43px;
+    font-weight: 700;
+    }
+  `;
 export default UserTimeline;

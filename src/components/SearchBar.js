@@ -9,6 +9,9 @@ function SearchBar() {
   const [search, setSearch] = useState("");
   const [usersList, setUsersList] = useState([]);
   useEffect(() => {
+    if(search === ""){
+      return;
+    }
     searchUser(search)
       .then((res) => setUsersList(res.data))
       .catch(() => setUsersList([]));
