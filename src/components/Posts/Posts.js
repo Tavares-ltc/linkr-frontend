@@ -12,20 +12,6 @@ function Posts({ refresh, setRefresh }) {
   const [fetching, setFetching] = useState(false);
   const [hasMore, setHasMore] = useState(true)
 
-  // useEffect(() => {
-  //   const token = getToken();
-  //   getPosts(token, page)
-  //     .then((res) => {
-  //       setPosts(res.data)
-  //     }
-  //     )
-  //     .catch(() =>
-  //       alert(
-  //         "An error occured while trying to fetch the posts, please refresh the page!"
-  //       )
-  //     );
-  // }, [refresh]);
-
   function noPostsYet() {
     if (!posts) {
       return (
