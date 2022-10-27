@@ -1,28 +1,34 @@
 import styled from 'styled-components';
 import Picture from './Picture';
 import { FiSend } from 'react-icons/fi';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Comment from './Comment';
 import { FallingLines } from 'react-loader-spinner';
-import { postComment } from '../../services/comments';
 import getToken from '../../services/getToken';
-import { getComments } from '../../services/comments';
+import {
+	postComment,
+	getIdByToken,
+	getComments,
+} from '../../services/comments';
 
-export default function Comments({
-	userImage,
-	postId,
-	userId,
-	comments,
-	setComments,
-	setRefresh,
-	refresh,
-}) {
+export default function Comments({ userImage, postId, setRefresh3, refresh3 }) {
 	const [refresh2, setRefresh2] = useState(false);
+	const [comments, setComments] = useState([]);
+	const [commenterSpecs, setCommenterSpecs] = useState([]);
 	const [message, setMessage] = useState({
 		message: '',
 	});
 	useEffect(() => {
 		const token = getToken();
+		getIdByToken(token)
+			.then((res) => {
+				setCommenterSpecs(res.data);
+			})
+			.catch(() =>
+				alert(
+					'An error occured while trying to fetch the comments, please refresh the page!'
+				)
+			);
 		getComments(token, postId)
 			.then((res) => {
 				setComments(res.data);
@@ -42,10 +48,10 @@ export default function Comments({
 		e.preventDefault();
 		const token = getToken();
 		message.postId = postId;
-		message.userId = userId;
-
+		message.userId = commenterSpecs.userId;
 		postComment(token, message);
 		setRefresh2(!refresh2);
+		setRefresh3(!refresh3);
 	}
 
 	function noPostsYet() {
@@ -75,15 +81,19 @@ export default function Comments({
 							<Comment
 								key={key}
 								id={key + 1}
-								userImage={userImage}
+								commenterImage={comment.commenterImage}
 								comment={comment.comment}
+								authorId={comment.authorId}
+								postId={comment.postId}
+								commenterId={comment.commenterId}
+								commenterName={comment.commenterName}
 							/>
 						);
 				  })
 				: noPostsYet()}
 
 			<WritterImputBox>
-				<Picture image_url={userImage} alt='User picture' />
+				<Picture image_url={commenterSpecs.image} alt='User picture' />
 				<input
 					autoComplete='off'
 					type='text'

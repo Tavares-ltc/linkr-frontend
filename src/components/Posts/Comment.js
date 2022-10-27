@@ -1,13 +1,48 @@
 import styled from 'styled-components';
 import Picture from './Picture';
+import { verifyFollower } from '../../services/comments';
+import getToken from '../../services/getToken';
+import { useEffect, useState, useRef } from 'react';
 
-export default function Comment({ id, userImage, comment }) {
+export default function Comment({
+	id,
+	commenterImage,
+	comment,
+	commenterId,
+	authorId,
+	postId,
+	commenterName,
+}) {
+	const [follow, setFollow] = useState([]);
+	const body = {
+		followerId: commenterId,
+		postAuthor: authorId,
+	};
+
+	console.log(body);
+
+	useEffect(() => {
+		const token = getToken();
+		verifyFollower(token, body).then((res) => {
+			setFollow(res.data);
+		});
+
+		console.log(follow);
+	}, []);
+
+	console.log(follow);
+	// console.log(comment);
+	// console.log(commenterId);
+	// console.log(authorId);
+	// console.log(postId);
+	// console.log(commenterName);
+
 	return (
 		<CommentBox>
-			<Picture image_url={userImage} alt='User picture' />
+			<Picture image_url={commenterImage} alt='User picture' />
 			<AuthorMessageBox>
 				<AuthorFollower>
-					<h1>Luciano</h1>
+					<h1>{commenterName}</h1>
 					<span>following</span>
 				</AuthorFollower>
 

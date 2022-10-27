@@ -35,7 +35,6 @@ function Post({
 	const [isEditing, setEditing] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [showComments, setShowComments] = useState(false);
-	const [comments, setComments] = useState([]);
 	const [commentsCount, setCommentsCount] = useState([]);
 	const inputRef = useRef(0);
 	const navigate = useNavigate();
@@ -44,6 +43,7 @@ function Post({
 		setEditing(!isEditing);
 	};
 
+	const [refresh3, setRefresh3] = useState(false);
 	useEffect(() => {
 		const token = getToken();
 		getCommentsCount(token, postId)
@@ -53,9 +53,8 @@ function Post({
 					'An error occured while trying to fetch the comments, please refresh the page!'
 				)
 			);
-
 		console.log(commentsCount);
-	}, [refresh]);
+	}, [refresh3]);
 
 	function openModal() {
 		setIsOpen(true);
@@ -101,7 +100,6 @@ function Post({
 					setDescriptionValue(formEdit.description);
 					setRefresh(!refresh);
 					toggleEditing();
-					console.log('entrou aki');
 				})
 				.catch((res) => {
 					alert('Não foi possível salvar as alterações');
@@ -130,7 +128,6 @@ function Post({
 	}
 
 	async function openComments() {
-		console.log(commentsCount);
 		setShowComments(!showComments);
 	}
 
@@ -233,10 +230,8 @@ function Post({
 						userImage={userImage}
 						postId={postId}
 						userId={userId}
-						comments={comments}
-						setComments={setComments}
-						refresh={refresh}
-						setRefresh={setRefresh}
+						refresh3={refresh3}
+						setRefresh3={setRefresh3}
 					/>
 				</>
 			) : (

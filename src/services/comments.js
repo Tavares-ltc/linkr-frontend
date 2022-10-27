@@ -28,4 +28,28 @@ async function postComment(token, body) {
 	return promise;
 }
 
-export { getComments, postComment, getCommentsCount };
+function verifyFollower(token, body) {
+	const promise = axios.get(`${BASE_URL}/verifyfollower`, body, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+	return promise;
+}
+
+function getIdByToken(token) {
+	const promise = axios.get(`${BASE_URL}/getid`, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+	return promise;
+}
+
+export {
+	getComments,
+	postComment,
+	getCommentsCount,
+	verifyFollower,
+	getIdByToken,
+};
