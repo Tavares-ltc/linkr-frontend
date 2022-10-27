@@ -1,24 +1,30 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import Post from "./Post";
 import { getPosts } from "../../services/posts";
 import getToken from "../../services/getToken";
 import { FallingLines } from "react-loader-spinner";
+import InfiniteScroll from 'react-infinite-scroller';
 
 function Posts({ refresh, setRefresh }) {
-  const [posts, setPosts] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(0);
+  const [fetching, setFetching] = useState(false);
+  const [hasMore, setHasMore] = useState(true)
 
-  useEffect(() => {
-    const token = getToken();
-    getPosts(token)
-      .then((res) => setPosts(res.data)
-      )
-      .catch(() =>
-        alert(
-          "An error occured while trying to fetch the posts, please refresh the page!"
-        )
-      );
-  }, [refresh]);
+  // useEffect(() => {
+  //   const token = getToken();
+  //   getPosts(token, page)
+  //     .then((res) => {
+  //       setPosts(res.data)
+  //     }
+  //     )
+  //     .catch(() =>
+  //       alert(
+  //         "An error occured while trying to fetch the posts, please refresh the page!"
+  //       )
+  //     );
+  // }, [refresh]);
 
   function noPostsYet() {
     if (!posts) {
@@ -38,10 +44,47 @@ function Posts({ refresh, setRefresh }) {
     }
   }
 
+  async function fetchItems() {
+    if (fetching) {
+      return;
+    }
+
+    setFetching(true);
+
+    try {
+
+      const token = getToken();
+      const { data: newPosts } = await getPosts(token, page);
+      if (newPosts.length < 10) {
+        setHasMore(false);
+        setPosts([...posts, ...newPosts]);
+      } else {
+        setPage(page + 1);
+        setPosts([...posts, ...newPosts]);
+      }
+    } finally {
+      setFetching(false);
+    }
+  }
+
+
   return (
-    <Wrapper>
-      {posts.length > 0
-        ? posts.map((post, key) => {
+    <InfiniteScroll
+      loadMore={fetchItems}
+      hasMore={hasMore}
+      loader={
+        <Loading>
+          <FallingLines
+            color="#fff"
+            width="100"
+            visible={true}
+            ariaLabel="falling-lines-loading"
+          />
+        </Loading>
+      }>
+      <Wrapper>
+        {posts?.length > 0
+          ? posts.map((post, key) => {
             return (
               <Post
                 key={key}
@@ -54,14 +97,14 @@ function Posts({ refresh, setRefresh }) {
                 metadataTitle={post.metadataTitle}
                 metadataDescription={post.metadataDescription}
                 metadataImage={post.metadataImage}
-                postId={post.id}
                 setRefresh={setRefresh}
                 refresh={refresh}
               />
             );
           })
-        : noPostsYet()}
-    </Wrapper>
+          : noPostsYet()}
+      </Wrapper>
+    </InfiniteScroll>
   );
 }
 

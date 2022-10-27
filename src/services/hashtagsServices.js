@@ -1,6 +1,7 @@
 import axios from "axios";
+import URL from "./URL";
 
-const BASE_URL = 'https://project-linkr-api.herokuapp.com';
+const BASE_URL = URL;
 
 const getTrendingHashtags = (token) => axios.get(`${BASE_URL}/hashtags`, {
     headers: {

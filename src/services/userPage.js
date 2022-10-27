@@ -1,10 +1,10 @@
 import axios from "axios";
 import getUserToken from "./getToken";
-
-const BASE_URL = "https://project-linkr-api.herokuapp.com";
+import URL from "./URL";
+const BASE_URL = URL;
 
 const token = getUserToken();
-
+console.log(URL)
 async function getUserById(userId) {
   return axios.get(`${BASE_URL}/user/data/${userId}`, {
     headers: {

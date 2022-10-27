@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-const BASE_URL = 'http://localhost:4000/';
+import URL from './URL';
+const BASE_URL = URL;
 
 function auth (){
     const aut = JSON.parse(localStorage.getItem("linkr"))?.token;

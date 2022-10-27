@@ -6,6 +6,7 @@ import ReactTooltip from 'react-tooltip';
 import getToken from '../../services/getToken';
 import getUser from "../../services/getUser";
 import userContext from '../../contexts/userContext';
+import URL from '../../services/URL';
 
 export function Like({ postId }) {
     const [clicked, setClicked] = useState(false);
@@ -14,7 +15,7 @@ export function Like({ postId }) {
     const { userdata } = useContext(userContext);
     const [userId, setUserId] = useState(userdata.id);
     const [token, setToken] = useState("");
-    const apiUrl = "https://project-linkr-api.herokuapp.com";
+    const apiUrl = URL;
 
     useEffect(() => {
         const URL = `${apiUrl}/like?postId=${postId}`;
