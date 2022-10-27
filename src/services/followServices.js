@@ -1,7 +1,8 @@
 import axios from "axios";
 import getUserToken from "./getToken";
 
-const BASE_URL = "https://project-linkr-api.herokuapp.com";
+ const BASE_URL = "https://project-linkr-api.herokuapp.com";
+//const BASE_URL = "https://localhost:4000";
 
 const token = getUserToken();
 
