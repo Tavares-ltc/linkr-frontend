@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { BiRefresh } from "react-icons/bi";
 import Post from "./Post";
-import { getPosts } from "../../services/posts";
+import { getPosts, getPostsCount } from "../../services/posts";
 import getToken from "../../services/getToken";
 import { FallingLines } from "react-loader-spinner";
 import useInterval from "use-interval";
@@ -10,7 +10,7 @@ import useInterval from "use-interval";
 function Posts({ refresh, setRefresh }) {
   const [token, setToken] = useState("");
   const [posts, setPosts] = useState(false);
-  const [postsCount, setPostsCount] = useState(0);
+  const [postsCount, setPostsCount] = useState({ prev: null, curr: null });
   const [followingCount, setFollowingCount] = useState(false);
   const [isDisabled, setDisabled] = useState(false);
 
@@ -31,11 +31,22 @@ function Posts({ refresh, setRefresh }) {
 
   useInterval(() => {
     if (token) {
-      getPosts(token).then((res) => {
-        setPostsCount(res.data[0].length);
+      getPostsCount(token).then((res) => {
+        if (postsCount.prev === null) {
+          setPostsCount({ ...postsCount, prev: parseInt(res.data[0]) });
+          return;
+        }
+        if (postsCount.prev > parseInt(res.data[0])) {
+          setPostsCount({ prev: null, curr: null });
+          return;
+        }
+        setPostsCount({
+          ...postsCount,
+          curr: parseInt(res.data[0]) - postsCount.prev,
+        });
       });
     }
-  }, 5000);
+  }, 15000);
 
   function updatePosts() {
     if (isDisabled) {
@@ -44,6 +55,7 @@ function Posts({ refresh, setRefresh }) {
     getPosts(token).then((res) => {
       setPosts(res.data[0]);
       setDisabled(false);
+      setPostsCount({ prev: null, curr: null });
     });
   }
 
@@ -60,9 +72,6 @@ function Posts({ refresh, setRefresh }) {
         </Loading>
       );
     }
-
-    console.log(followingCount?.length);
-    console.log(posts.length);
 
     if (posts.length === 0 && followingCount?.length === 0) {
       return (
@@ -81,14 +90,14 @@ function Posts({ refresh, setRefresh }) {
 
   return (
     <Wrapper>
-      {postsCount > posts.length ? (
+      {postsCount.curr > 0 ? (
         <NewPosts
           onClick={() => {
             updatePosts();
             setDisabled(true);
           }}
         >
-          <p>{postsCount - posts.length} new posts, load more!</p>
+          <p>{postsCount.curr} new posts, load more!</p>
           <BiRefresh size={30} color={"#fff"} />
         </NewPosts>
       ) : (
