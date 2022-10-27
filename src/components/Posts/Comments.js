@@ -126,7 +126,6 @@ const ComentPageWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 611px;
-	height: 100%;
 	background: #1e1e1e;
 	border-radius: 0 0 16px 16px;
 	padding: 0 17px;

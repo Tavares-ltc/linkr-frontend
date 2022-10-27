@@ -10,7 +10,6 @@ export default function Comment({
 	comment,
 	commenterId,
 	authorId,
-	postId,
 	commenterName,
 }) {
 	const [follow, setFollow] = useState([]);
@@ -18,36 +17,41 @@ export default function Comment({
 		followerId: commenterId,
 		postAuthor: authorId,
 	};
-
-	console.log(body);
+	let follower = '';
 
 	useEffect(() => {
 		const token = getToken();
 		verifyFollower(token, body).then((res) => {
 			setFollow(res.data);
 		});
-
-		console.log(follow);
 	}, []);
 
-	console.log(follow);
-	// console.log(comment);
-	// console.log(commenterId);
-	// console.log(authorId);
-	// console.log(postId);
-	// console.log(commenterName);
+	if (follow.length === 0) {
+	} else {
+		if (commenterId === authorId) {
+			follower = `post's author`;
+		} else if (follow.follow.rows.length === 1) {
+			follower = 'following';
+		}
+	}
 
 	return (
 		<CommentBox>
-			<Picture image_url={commenterImage} alt='User picture' />
-			<AuthorMessageBox>
-				<AuthorFollower>
-					<h1>{commenterName}</h1>
-					<span>following</span>
-				</AuthorFollower>
+			{follow.length === 0 ? (
+				<></>
+			) : (
+				<>
+					<Picture image_url={commenterImage} alt='User picture' />
+					<AuthorMessageBox>
+						<AuthorFollower>
+							<h1>{commenterName}</h1>
+							<span>{follower}</span>
+						</AuthorFollower>
 
-				<p>{comment}</p>
-			</AuthorMessageBox>
+						<p>{comment}</p>
+					</AuthorMessageBox>
+				</>
+			)}
 		</CommentBox>
 	);
 }

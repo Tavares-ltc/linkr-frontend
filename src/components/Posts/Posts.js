@@ -127,7 +127,7 @@ function Posts({ refresh, setRefresh }) {
 	);
 }
 
-const Wrapper2 = styled.div`
+const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	//row-gap: 16px;

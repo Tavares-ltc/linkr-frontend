@@ -29,7 +29,7 @@ async function postComment(token, body) {
 }
 
 function verifyFollower(token, body) {
-	const promise = axios.get(`${BASE_URL}/verifyfollower`, body, {
+	const promise = axios.post(`${BASE_URL}/verifyfollower`, body, {
 		headers: {
 			Authorization: `Bearer ${token}`,
 		},
