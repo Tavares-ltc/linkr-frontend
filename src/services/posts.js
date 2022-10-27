@@ -10,6 +10,15 @@ function getPosts(token) {
   return promise;
 }
 
+function getPostsCount(token) {
+  const promise = axios.get(`${BASE_URL}/posts/count`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return promise;
+}
+
 function createPost(userId, hashtags, description, link, token) {
   const promise = axios.post(
     `${BASE_URL}/posts`,
@@ -17,7 +26,7 @@ function createPost(userId, hashtags, description, link, token) {
       userId,
       description,
       link,
-      hashtags
+      hashtags,
     },
     {
       headers: {
@@ -28,4 +37,4 @@ function createPost(userId, hashtags, description, link, token) {
   return promise;
 }
 
-export { getPosts, createPost };
+export { getPosts, createPost, getPostsCount };

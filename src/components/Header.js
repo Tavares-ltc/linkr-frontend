@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { SlArrowUp, SlArrowDown } from 'react-icons/sl';
@@ -24,6 +25,39 @@ export default function Header() {
 	function showLogoutButton() {
 		setButton(!button);
 	}
+=======
+import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
+import { SlArrowUp, SlArrowDown } from "react-icons/sl";
+import { useContext, useState } from "react";
+import SearchBar from "./SearchBar";
+import { useEffect } from "react";
+import getUser from "../services/getUser";
+import getToken from "../services/getToken";
+import userContext from "../contexts/userContext";
+export default function Header() {
+  const [button, setButton] = useState(false);
+  const navigate = useNavigate();
+  const [user, setUser] = useState("");
+  const { setUserdata } = useContext(userContext);
+
+  useEffect(() => {
+    const userToken = getToken();
+    getUser(userToken)
+      .then((res) => {
+        setUserdata(res.data)
+        setUser({ ...res.data })
+      })
+      .catch(() =>
+        alert(
+          "An error occured while trying to fetch the posts, please refresh the page!"
+        )
+      );
+  }, []);
+  function showLogoutButton() {
+    setButton(!button);
+  }
+>>>>>>> main
 
 	function exitUser() {
 		localStorage.removeItem('linkr');
