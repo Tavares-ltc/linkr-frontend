@@ -6,7 +6,6 @@ import { getUserPosts } from '../../services/userPage';
 import { useParams } from 'react-router-dom';
 
 function UserPosts({ userData }) {
-<<<<<<< HEAD
 	const [userPosts, setUserPosts] = useState('');
 	const { id } = useParams();
 
@@ -24,25 +23,6 @@ function UserPosts({ userData }) {
 		}
 		getPosts();
 	}, [id]);
-=======
-  const [userPosts, setUserPosts] = useState("");
-  const { id } = useParams();
-
-  useEffect(() => {
-    async function getPosts() {
-      try {
-        if (!id) {
-          return;
-        }
-        const posts = await getUserPosts(id);
-        setUserPosts(posts.data);
-      } catch (error) {
-        console.log(error.response);
-      }
-    }
-    getPosts();
-  }, [id]);
->>>>>>> main
 
 	function noPostsYet() {
 		if (!userPosts) {
@@ -95,44 +75,26 @@ const Wrapper = styled.div`
 `;
 
 const Loading = styled.div`
-<<<<<<< HEAD
 	display: flex;
 	justify-content: center;
-	width: 100%;
+	width: 611px;
+	@media (max-width: 650px) {
+		width: 100%;
+	}
 `;
 
 const NoPosts = styled.div`
 	display: flex;
 	justify-content: center;
 	font-family: 'Lato', sans-serif;
-	width: 100%;
+	width: 611px;
 	color: #fff;
 	font-style: normal;
 	font-weight: 700;
 	font-size: 15px;
 	margin-top: 40px;
-=======
-  display: flex;
-  justify-content: center;
-  width: 611px;
-  @media (max-width: 650px) {
-      width: 100%;
-  }
-`;
-
-const NoPosts = styled.div`
-  display: flex;
-  justify-content: center;
-  font-family: "Lato", sans-serif;
-  width: 611px;
-  color: #fff;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 15px;
-  margin-top: 40px;
-  @media (max-width: 650px) {
-      width: 100%;
-  }
->>>>>>> main
+	@media (max-width: 650px) {
+		width: 100%;
+	}
 `;
 export default UserPosts;
