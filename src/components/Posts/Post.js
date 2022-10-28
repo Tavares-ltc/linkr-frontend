@@ -30,7 +30,6 @@ function Post({
   refresh,
   hashtag
 }) {
-  console.log(postId);
   Modal.setAppElement('#root');
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);

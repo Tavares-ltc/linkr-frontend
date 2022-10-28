@@ -11,7 +11,6 @@ function getComments(token, postId) {
 }
 
 function getCommentsCount(token, postId) {
-	console.log(postId);
 	const promise = axios.get(`${BASE_URL}/commentscount/${postId}`, {
 		headers: {
 			Authorization: `Bearer ${token}`,

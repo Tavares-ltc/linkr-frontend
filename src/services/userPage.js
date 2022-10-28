@@ -3,7 +3,6 @@ import getUserToken from "./getToken";
 import BASE_URL from "./BASE_URL";
 
 const token = getUserToken();
-console.log(URL)
 async function getUserById(userId) {
   return axios.get(`${BASE_URL}/user/data/${userId}`, {
     headers: {
