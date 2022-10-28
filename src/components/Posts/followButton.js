@@ -16,7 +16,6 @@ function FollowButton() {
     async function isFollowing() {
       try {
         const response = await checkFollowing(id);
-        console.log(response);
         setIsFollower(response.data);
         setLoading(false);
       } catch (error) {
@@ -50,6 +49,9 @@ function FollowButton() {
         setLoading(false);
       }
     }
+  }
+  if(isFollower === 'same user'){
+    return <></>
   }
 
   return (
