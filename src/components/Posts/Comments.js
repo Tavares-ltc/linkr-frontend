@@ -26,7 +26,7 @@ export default function Comments({ userImage, postId, setRefresh3, refresh3 }) {
 			})
 			.catch(() =>
 				alert(
-					'An error occured while trying to fetch the comments, please refresh the page!'
+					'An error occured while trying to fetch the comments specs, please refresh the page!'
 				)
 			);
 		getComments(token, postId)

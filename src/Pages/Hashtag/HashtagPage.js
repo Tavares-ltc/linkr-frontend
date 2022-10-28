@@ -10,17 +10,21 @@ import Trending from "../../components/Trending/Trending";
 export default function HashtagPage() {
     const { hashtagName } = useParams();
 
+    const [clicked, setClicked] = useState(false);
+
     const [posts, setPosts] = useState([]);
+    console.log(posts);
     useEffect(
         () => {
             const token = getUserToken();
             getPostsByHashtag(hashtagName, token)
                 .then((res) => {
-                    setPosts(res.data)
+                    console.log(res.data)
+                    setPosts(res.data);
                 })
                 .catch((res) => alert('Could not get the posts from this hashtag, please reload'));
         },
-        []
+        [hashtagName]
     )
 
     return (
@@ -33,6 +37,7 @@ export default function HashtagPage() {
                     {posts?.map(post =>
                         <Post
                             key={post.id}
+                            postId={post.id}
                             username={post.userName}
                             userImage={post.userImage}
                             description={post.postDescription}
@@ -40,10 +45,17 @@ export default function HashtagPage() {
                             metadataTitle={post.metadataTitle}
                             metadataDescription={post.metadataDescription}
                             metadataImage={post.metadataImage}
+                            clicked={clicked}
+                            setClicked={setClicked}
+                            userId={post.userId}
+                            hashtag
                         />
                     )}
                 </div>
-                <Trending />
+                <Trending
+                    setClicked={setClicked}
+                    clicked={clicked}
+                />
             </div>
         </Wrapper>
     )
@@ -62,10 +74,6 @@ margin-top: 78px;
 
   @media (max-width: 650px) {
     width: 100%;
-
-    div {
-      width: 100%;
-    }
   }
 }
 

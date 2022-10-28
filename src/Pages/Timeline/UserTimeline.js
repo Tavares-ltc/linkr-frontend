@@ -58,13 +58,31 @@ const ContentWrappler = styled.div`
 	@media (max-width: 650px) {
 		width: 100%;
 	}
+
+  @media (max-width: 936px) {
+    width: 611px;
+  }
 `;
 
 const Wrapper = styled.div`
-	margin: 0 auto;
-	max-width: 611px;
-	width: 100%;
-	margin-top: 100px;
+margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+
+  & > div {
+  display: flex;
+
+  @media (max-width: 650px) {
+    width: 100%;
+
+    div {
+      width: 100%;
+    }
+  }
+}
 `;
 const UserWrappler = styled.div`
 	img {

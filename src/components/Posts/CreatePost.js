@@ -26,23 +26,24 @@ function CreatePost({ setRefresh, refresh }) {
 		}
 	}, [token]);
 
-	function handleSubmit(e) {
-		e.preventDefault();
-		setLoading(!loading);
-		const inputWords = input.description.split(' ');
-		const hashtags = inputWords.filter((word) => word[0] === '#');
-		createPost(user.id, hashtags, input.description, input.url, token)
-			.then(() => {
-				setInput({ url: '', description: '' });
-				setLoading(false);
-				setRefresh(!refresh);
-			})
-			.catch((error) => {
-				console.log(error);
-				setLoading(false);
-				alert('Houve um erro ao publicar seu link!');
-			});
-	}
+  function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(!loading);
+    const inputWords = input.description.split(' ');
+    const hashtags = inputWords.filter(word => word[0] === '#');
+    const hashtagNames = hashtags.map(hashtag => hashtag.slice(1));
+    createPost(user.id, hashtagNames, input.description, input.url, token)
+      .then(() => {
+        setInput({ url: "", description: "" });
+        setLoading(false);
+        setRefresh(!refresh);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+        alert("Houve um erro ao publicar seu link!");
+      });
+  }
 
 	return (
 		<Wrapper>

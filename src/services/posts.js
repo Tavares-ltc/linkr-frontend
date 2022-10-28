@@ -1,8 +1,8 @@
 import axios from "axios";
 import BASE_URL from "./BASE_URL";
 
-function getPosts(token, page) {
-  const promise = axios.get(`${BASE_URL}/posts?page=${page}`, {
+function getPosts(token) {
+  const promise = axios.get(`${BASE_URL}/posts`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

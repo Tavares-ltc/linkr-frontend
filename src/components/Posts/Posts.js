@@ -11,6 +11,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 function Posts({ refresh, setRefresh }) {
   const [token, setToken] = useState('');
   const [posts, setPosts] = useState([]);
+  console.log(posts);
   const [postsCount, setPostsCount] = useState({ prev: null, curr: null });
   const [followingCount, setFollowingCount] = useState(false);
   const [isDisabled, setDisabled] = useState(false);
@@ -18,6 +19,20 @@ function Posts({ refresh, setRefresh }) {
   const [fetching, setFetching] = useState(false);
   const [hasMore, setHasMore] = useState(true)
 
+  useEffect(() => {
+    const token = getToken();
+    getPosts(token)
+      .then((res) => {
+        console.log('entrou')
+        setPosts(res.data[0]);
+      }
+      )
+      .catch(() =>
+        alert(
+          "An error occured while trying to fetch the posts, please refresh the page!"
+        )
+      );
+  }, [refresh]);
   useInterval(() => {
     if (token) {
       getPostsCount(token).then((res) => {
@@ -104,7 +119,6 @@ function Posts({ refresh, setRefresh }) {
 
   return (
     <InfiniteScroll
-      loadMore={fetchItems}
       hasMore={hasMore}
       loader={
         <Loading>
@@ -158,7 +172,7 @@ function Posts({ refresh, setRefresh }) {
 const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	//row-gap: 16px;
+	row-gap: 16px;
 	margin-bottom: 100px;
 `;
 

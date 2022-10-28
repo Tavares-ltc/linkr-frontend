@@ -42,29 +42,28 @@ function UserPosts({ userData }) {
 		}
 	}
 
-	return (
-		<Wrapper>
-			{userPosts.length > 0
-				? userPosts.map((post, key) => {
-						return (
-							<Post
-								key={key}
-								id={key + 1}
-								username={userData.name}
-								userId={post.userId}
-								userImage={userData.image}
-								description={post.postDescription}
-								metadataUrl={post.metadataUrl}
-								metadataTitle={post.metadataTitle}
-								metadataDescription={post.metadataDescription}
-								metadataImage={post.metadataImage}
-								postId={post.id}
-							/>
-						);
-				  })
-				: noPostsYet()}
-		</Wrapper>
-	);
+  return (
+    <Wrapper>
+      {userPosts.length > 0
+        ? userPosts.map((post, key) => {
+            return (
+              <Post
+                key={key}
+                postId={post.id}
+                username={userData.name}
+                userId={post.userId}
+                userImage={userData.image}
+                description={post.postDescription}
+                metadataUrl={post.metadataUrl}
+                metadataTitle={post.metadataTitle}
+                metadataDescription={post.metadataDescription}
+                metadataImage={post.metadataImage}
+              />
+            );
+          })
+        : noPostsYet()}
+    </Wrapper>
+  );
 }
 
 const Wrapper = styled.div`

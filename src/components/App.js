@@ -17,7 +17,7 @@ function App() {
 	return (
 		<>
 			<GlobalStyle />
-			<userContext.Provider value={contextValue}>
+			<userContext.Provider value={ contextValue }>
 				<BrowserRouter>
 					<Routes>
 						<Route path='/' element={<SignIn />} />

@@ -46,6 +46,7 @@ export default function SignUp() {
         isError: true,
         message: error.response.data,
       });
+	  setDisable(false);
     }
   }
 

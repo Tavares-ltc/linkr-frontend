@@ -9,6 +9,7 @@ import userContext from '../../contexts/userContext';
 import BASE_URL from '../../services/BASE_URL';
 
 export function Like({ postId }) {
+	console.log(postId);
 	const [clicked, setClicked] = useState(false);
 	const [likes, setLikes] = useState();
 	const [toolTip, setToolTip] = useState();

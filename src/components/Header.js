@@ -19,10 +19,7 @@ export default function Header() {
 				setUserdata(res.data);
 				setUser({ ...res.data });
 			})
-			.catch(() =>
-				alert(
-					'An error occured while trying to fetch the posts, please refresh the page!'
-				)
+			.catch((res) => console.log(res)
 			);
 	}, []);
 	function showLogoutButton() {

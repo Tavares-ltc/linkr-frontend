@@ -1,22 +1,22 @@
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { Like } from "./like";
-import Picture from "./Picture";
-import Modal from "react-modal";
-import { useEffect, useState, useRef, useContext } from "react";
-import { deletePost, editPost } from "../../services/editPost";
-import { AiTwotoneDelete } from "react-icons/ai";
-import { TiPencil } from "react-icons/ti";
-import { TailSpin } from "react-loader-spinner";
-import { AiOutlineComment } from "react-icons/ai";
-import Comments from "./Comments";
-import { getComments, getCommentsCount } from "../../services/comments";
-import getToken from "../../services/getToken";
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import { Like } from './like';
+import Picture from './Picture';
+import Modal from 'react-modal';
+import { useEffect, useState, useRef, useContext } from 'react';
+import { deletePost, editPost } from '../../services/editPost';
+import { AiTwotoneDelete } from 'react-icons/ai';
+import { TiPencil } from 'react-icons/ti';
+import { TailSpin } from 'react-loader-spinner';
+import { ReactTagify } from "react-tagify";
+import { AiOutlineComment } from 'react-icons/ai';
+import Comments from './Comments';
+import { getComments, getCommentsCount } from '../../services/comments';
+import getToken from '../../services/getToken';
 import userContext from "../../contexts/userContext";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
 
 function Post({
-  id,
   username,
   userImage,
   description,
@@ -28,8 +28,10 @@ function Post({
   userId,
   setRefresh,
   refresh,
+  hashtag
 }) {
-  Modal.setAppElement("#root");
+  console.log(postId);
+  Modal.setAppElement('#root');
   let subtitle;
   const [modalIsOpen, setIsOpen] = useState(false);
   const [formEdit, setFormEdit] = useState({});
@@ -45,7 +47,13 @@ function Post({
     setEditing(!isEditing);
   };
 
-  const context = useContext(userContext)
+  const context = useContext(userContext);
+
+  const tagStyle = {
+    color: 'white',
+    fontWeight: 700,
+    cursor: 'pointer'
+  }
 
   const [refresh3, setRefresh3] = useState(false);
   useEffect(() => {
@@ -54,7 +62,7 @@ function Post({
       .then((res) => setCommentsCount(res.data))
       .catch(() =>
         alert(
-          "An error occured while trying to fetch the comments, please refresh the page!"
+          'An error occured while trying to fetch the comments, please refresh the page!'
         )
       );
   }, [refresh3]);
@@ -64,7 +72,7 @@ function Post({
   }
 
   function afterOpenModal() {
-    subtitle.style.color = "#f00";
+    subtitle.style.color = '#f00';
   }
 
   function closeModal() {
@@ -73,16 +81,41 @@ function Post({
 
   const customStyles = {
     content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-      background: "#333333",
-      borderRadius: "40px",
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      background: '#333333',
+      borderRadius: '40px'
     },
   };
+
+
+  function handleForm({ name, value }) {
+    setDescriptionValue(value)
+    setFormEdit({
+      ...formEdit, [name]: value,
+    })
+  }
+
+  function sendForm(e) {
+    if (e.key === "Escape") {
+      toggleEditing()
+    }
+    if (e.key === "Enter") {
+      e.preventDefault();
+      editPost({ formEdit, postId }).then((res) => {
+        setDescriptionValue(formEdit.description)
+        setRefresh(!refresh)
+        toggleEditing()
+      })
+        .catch((res) => {
+          alert("Não foi possível salvar as alterações")
+        })
+    }
+  }
 
   function handleForm({ name, value }) {
     setDescriptionValue(value);
@@ -90,24 +123,6 @@ function Post({
       ...formEdit,
       [name]: value,
     });
-  }
-
-  function sendForm(e) {
-    if (e.key === "Escape") {
-      toggleEditing();
-    }
-    if (e.key === "Enter") {
-      e.preventDefault();
-      editPost({ formEdit, postId })
-        .then((res) => {
-          setDescriptionValue(formEdit.description);
-          setRefresh(!refresh);
-          toggleEditing();
-        })
-        .catch((res) => {
-          alert("Não foi possível salvar as alterações");
-        });
-    }
   }
 
   useEffect(() => {
@@ -138,7 +153,7 @@ function Post({
     <PostWrapper>
       <Wrapper>
         <LeftColumn>
-          <Picture image_url={userImage} alt="User picture" />
+          <Picture image_url={userImage} alt='User picture' />
           <Like postId={postId} />
           <CommentIconBox>
             <AiOutlineComment onClick={openComments} />
@@ -156,7 +171,7 @@ function Post({
                 {username}
               </Username>
             </UserColumn>
-            {(userId == context.userdata.id )&& <EditColumn>
+            <EditColumn>
               <TiPencil onClick={toggleEditing} />
               <div>
                 <AiTwotoneDelete onClick={openModal} />
@@ -165,7 +180,7 @@ function Post({
                   onAfterOpen={afterOpenModal}
                   onRequestClose={closeModal}
                   style={customStyles}
-                  contentLabel="Example Modal"
+                  contentLabel='Example Modal'
                 >
                   <BackModal>
                     <h2 ref={(subtitle) => (subtitle = subtitle)}>
@@ -173,11 +188,11 @@ function Post({
                     </h2>
                     <BlockButtons>
                       {loading ? (
-                        <TailSpin color="#ffffff" width="10" />
+                        <TailSpin color='#ffffff' width='10' />
                       ) : (
                         <>
                           <ButtonClose onClick={closeModal}>
-                            {" "}
+                            {' '}
                             No, go back
                           </ButtonClose>
                           <ExcludeButton onClick={deleteMyPost}>
@@ -189,13 +204,13 @@ function Post({
                   </BackModal>
                 </Modal>
               </div>
-            </EditColumn>}
+            </EditColumn>
           </Header>
           <div>
             {isEditing ? (
               <InputEdit
                 ref={inputRef}
-                name="description"
+                name='description'
                 value={descriptionValue}
                 onKeyPress={(event) => sendForm(event)}
                 onChange={(e) =>
@@ -205,9 +220,16 @@ function Post({
                   })
                 }
               />
-            ) : (
-              <Description>{description}</Description>
-            )}
+            ) : description ?
+              <ReactTagify
+                tagStyle={tagStyle}
+                tagClicked={(tag) => navigate(`/hashtag/${tag.slice(1)}`)}
+              >
+                <Description>{description}</Description>
+              </ReactTagify>
+              :
+              ''
+            }
           </div>
 
           <a href={metadataUrl} target="_blank" rel="noreferrer">
@@ -261,20 +283,20 @@ const CommentIconBox = styled.div`
 `;
 
 const PostWrapper = styled.div`
-  width: 611px;
-  margin-bottom: 40px;
+	width: 611px;
 `;
 
 const Wrapper = styled.div`
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  width: 611px;
-  background: #171717;
-  border-radius: 16px;
-  padding: 14px;
+	position: relative;
+	z-index: 1;
+	display: flex;
+	justify-content: space-between;
+	gap: 14px;
+	width: 611px;
+	background: #171717;
+	border-radius: 16px;
+	padding: 14px;
+  ${(hashtag) => hashtag ? 'margin-bottom: 16px;' : ''}
 
   @media (max-width: 650px) {
     border-radius: 0;
