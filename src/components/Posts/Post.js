@@ -136,7 +136,7 @@ function Post({
 			<Wrapper>
 				<LeftColumn>
 					<Picture image_url={userImage} alt='User picture' />
-					<Like id={id} />
+					<Like postId={postId} />
 					<CommentIconBox>
 						<AiOutlineComment onClick={openComments} />
 						<p>{commentsCount} comments</p>
