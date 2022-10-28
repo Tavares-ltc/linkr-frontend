@@ -39,7 +39,6 @@ function CreatePost({ setRefresh, refresh }) {
         setRefresh(!refresh);
       })
       .catch((error) => {
-        console.log(error);
         setLoading(false);
         alert("Houve um erro ao publicar seu link!");
       });

@@ -13,13 +13,11 @@ export default function HashtagPage() {
     const [clicked, setClicked] = useState(false);
 
     const [posts, setPosts] = useState([]);
-    console.log(posts);
     useEffect(
         () => {
             const token = getUserToken();
             getPostsByHashtag(hashtagName, token)
                 .then((res) => {
-                    console.log(res.data)
                     setPosts(res.data);
                 })
                 .catch((res) => alert('Could not get the posts from this hashtag, please reload'));

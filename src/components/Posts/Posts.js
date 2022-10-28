@@ -11,7 +11,6 @@ import InfiniteScroll from 'react-infinite-scroller';
 function Posts({ refresh, setRefresh }) {
   const [token, setToken] = useState('');
   const [posts, setPosts] = useState([]);
-  console.log(posts);
   const [postsCount, setPostsCount] = useState({ prev: null, curr: null });
   const [followingCount, setFollowingCount] = useState(false);
   const [isDisabled, setDisabled] = useState(false);
@@ -23,7 +22,6 @@ function Posts({ refresh, setRefresh }) {
     const token = getToken();
     getPosts(token)
       .then((res) => {
-        console.log('entrou')
         setPosts(res.data[0]);
       }
       )
@@ -107,7 +105,6 @@ function Posts({ refresh, setRefresh }) {
         setHasMore(false);
         setPosts([...posts, ...newPosts]);
       } else {
-        console.log(posts)
         setPage(page + 1);
         setPosts([...posts, ...newPosts]);
       }
