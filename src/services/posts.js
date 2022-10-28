@@ -1,8 +1,17 @@
 import axios from "axios";
-const BASE_URL = "https://project-linkr-api.herokuapp.com";
+import BASE_URL from "./BASE_URL";
 
 function getPosts(token) {
   const promise = axios.get(`${BASE_URL}/posts`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return promise;
+}
+
+function getPostsCount(token) {
+  const promise = axios.get(`${BASE_URL}/posts/count`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -17,7 +26,7 @@ function createPost(userId, hashtags, description, link, token) {
       userId,
       description,
       link,
-      hashtags
+      hashtags,
     },
     {
       headers: {
@@ -28,4 +37,4 @@ function createPost(userId, hashtags, description, link, token) {
   return promise;
 }
 
-export { getPosts, createPost };
+export { getPosts, createPost, getPostsCount };

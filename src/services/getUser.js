@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const BASE_URL = 'https://project-linkr-api.herokuapp.com';
+import BASE_URL from "./BASE_URL";
 
 function getUser(token) {
   return axios.get(

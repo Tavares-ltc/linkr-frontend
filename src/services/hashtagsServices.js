@@ -1,20 +1,18 @@
 import axios from "axios";
+import BASE_URL from "./BASE_URL";
 
-const BASE_URL = 'http://localhost:4000';
-
-const getTrendingHashtags = (token) => axios.get(`${BASE_URL}/hashtags`, {
+const getTrendingHashtags = (token) =>
+  axios.get(`${BASE_URL}/hashtags`, {
     headers: {
-        Authorization: `Bearer ${token}`
-    }
-});
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-const getPostsByHashtag = (hashtag, token) => axios.get(`${BASE_URL}/hashtags/${hashtag}`, {
+const getPostsByHashtag = (hashtag, token) =>
+  axios.get(`${BASE_URL}/hashtags/${hashtag}`, {
     headers: {
-        Authorization: `Bearer ${token}`
-    }
-});
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-export {
-    getTrendingHashtags,
-    getPostsByHashtag
-}
+export { getTrendingHashtags, getPostsByHashtag };

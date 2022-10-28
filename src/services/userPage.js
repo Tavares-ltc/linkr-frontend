@@ -1,10 +1,9 @@
 import axios from "axios";
 import getUserToken from "./getToken";
-
-const BASE_URL = "http://localhost:4000";
+import BASE_URL from "./BASE_URL";
 
 const token = getUserToken();
-
+console.log(URL)
 async function getUserById(userId) {
   return axios.get(`${BASE_URL}/user/data/${userId}`, {
     headers: {

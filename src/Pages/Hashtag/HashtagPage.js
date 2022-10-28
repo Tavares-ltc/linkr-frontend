@@ -13,12 +13,13 @@ export default function HashtagPage() {
     const [clicked, setClicked] = useState(false);
 
     const [posts, setPosts] = useState([]);
+    console.log(posts);
     useEffect(
         () => {
             const token = getUserToken();
             getPostsByHashtag(hashtagName, token)
                 .then((res) => {
-                    setPosts(res.data)
+                    setPosts(res.data);
                 })
                 .catch((res) => alert('Could not get the posts from this hashtag, please reload'));
         },
@@ -35,7 +36,7 @@ export default function HashtagPage() {
                     {posts?.map(post =>
                         <Post
                             key={post.id}
-                            id={post.id}
+                            postId={post.id}
                             username={post.userName}
                             userImage={post.userImage}
                             description={post.postDescription}
@@ -45,6 +46,7 @@ export default function HashtagPage() {
                             metadataImage={post.metadataImage}
                             clicked={clicked}
                             setClicked={setClicked}
+                            userId={post.userId}
                             hashtag
                         />
                     )}
