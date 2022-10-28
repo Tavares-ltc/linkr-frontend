@@ -6,18 +6,18 @@ import ReactTooltip from 'react-tooltip';
 import getToken from '../../services/getToken';
 import getUser from '../../services/getUser';
 import userContext from '../../contexts/userContext';
+import BASE_URL from '../../services/BASE_URL';
 
 export function Like({ postId }) {
 	const [clicked, setClicked] = useState(false);
 	const [likes, setLikes] = useState();
 	const [toolTip, setToolTip] = useState();
 	const { userdata } = useContext(userContext);
-	const [userId, setUserId] = useState(userdata.id);
+	const [userId, setUserId] = useState(userdata?.id);
 	const [token, setToken] = useState('');
-	const apiUrl = 'https://project-linkr-api.herokuapp.com';
 
 	useEffect(() => {
-		const URL = `${apiUrl}/like?postId=${postId}`;
+		const URL = `${BASE_URL}/like?postId=${postId}`;
 
 		const promise = axios.get(URL);
 		promise
@@ -39,7 +39,7 @@ export function Like({ postId }) {
 
 		if (!clicked) {
 			axios
-				.post(`${apiUrl}/like`, BODY, AUT)
+				.post(`${BASE_URL}/like`, BODY, AUT)
 				.then((res) => {
 					setClicked(true);
 				})
@@ -48,14 +48,14 @@ export function Like({ postId }) {
 				});
 		} else {
 			axios
-				.delete(`${apiUrl}/like?userId=${userId}&postId=${postId}`, [], AUT)
+				.delete(`${BASE_URL}/like?userId=${userId}&postId=${postId}`, [], AUT)
 				.then((res) => {
 					setClicked(false);
 				});
 		}
 
 		axios
-			.get(`${apiUrl}/like?postId=${postId}`)
+			.get(`${BASE_URL}/like?postId=${postId}`)
 			.then((res) => {
 				setLikes(res.data);
 				populateTooTip(res.data);

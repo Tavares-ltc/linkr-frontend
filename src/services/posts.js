@@ -1,8 +1,8 @@
 import axios from "axios";
-const BASE_URL = "https://project-linkr-api.herokuapp.com";
+import BASE_URL from "./BASE_URL";
 
-function getPosts(token) {
-  const promise = axios.get(`${BASE_URL}/posts`, {
+function getPosts(token, page) {
+  const promise = axios.get(`${BASE_URL}/posts?page=${page}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
