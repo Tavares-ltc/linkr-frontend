@@ -16,7 +16,7 @@ function UserTimeline() {
 	const { id } = useParams();
 
 	useEffect(() => {
-		async function getUserData(id) {
+		async function getUserData() {
 			try {
 				const user = await getUserById(id);
 				setUserData(user.data);
@@ -25,7 +25,7 @@ function UserTimeline() {
 				setError(error.response);
 			}
 		}
-		getUserData(id);
+		getUserData();
 	}, [id]);
 
 	return (

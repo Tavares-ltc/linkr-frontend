@@ -8,7 +8,7 @@ function UserPlaceholder({ img, name, id, setSearch, isFollowing }) {
       <img src={img} alt="" />
       <h1
         onClick={() => {
-          setSearch();
+          setSearch('');  
           navigate(`/user/${id}`);
         }}
       >

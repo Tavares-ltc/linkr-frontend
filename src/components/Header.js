@@ -12,7 +12,6 @@ export default function Header() {
 	const navigate = useNavigate();
 	const [user, setUser] = useState('');
 	const { setUserdata } = useContext(userContext);
-
 	useEffect(() => {
 		const userToken = getToken();
 		getUser(userToken)
@@ -63,7 +62,7 @@ export default function Header() {
 						/>
 					)}
 
-					<img src={user.image} alt='' />
+					<img src={user.image} alt='' onClick={()=> {navigate(`/user/${user.id}`)}} />
 				</RighSide>
 				{button ? (
 					<LogOutButton onClick={exitUser}>Logout</LogOutButton>
@@ -87,7 +86,6 @@ const ContentHeader = styled.header`
 	width: 100vw;
 	height: 72px;
 	display: flex;
-	//padding-top: 14px;
 	justify-content: space-between;
 	align-items: center;
 	background-color: #151515;
@@ -118,8 +116,8 @@ const LogOutButton = styled.div`
 const SearchBarWrappler = styled.div`
 	width: 440px;
 	margin: 0 20px;
-
-	position: relative;
+	height: 72px;
+	
 `;
 const RighSide = styled.header`
 	display: flex;
@@ -131,5 +129,6 @@ const RighSide = styled.header`
 		border-radius: 35px;
 		margin-left: 20px;
 		margin-right: 20px;
+		cursor: pointer;
 	}
 `;

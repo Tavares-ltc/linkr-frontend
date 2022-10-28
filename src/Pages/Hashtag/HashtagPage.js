@@ -19,6 +19,7 @@ export default function HashtagPage() {
             const token = getUserToken();
             getPostsByHashtag(hashtagName, token)
                 .then((res) => {
+                    console.log(res.data)
                     setPosts(res.data);
                 })
                 .catch((res) => alert('Could not get the posts from this hashtag, please reload'));
