@@ -1,6 +1,6 @@
 import axios from "axios";
-import URL from "./URL";
-const BASE_URL = URL;
+
+const BASE_URL = "https://project-linkr-api.herokuapp.com";
 
 function getPosts(token, page) {
   const promise = axios.get(`${BASE_URL}/posts?page=${page}`, {

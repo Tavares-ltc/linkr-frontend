@@ -1,5 +1,5 @@
 import axios from "axios";
-import URL from "./URL";
+import URL from "./BASE_URL";
 
 const BASE_URL = "https://project-linkr-api.herokuapp.com";
 

@@ -6,7 +6,7 @@ import ReactTooltip from 'react-tooltip';
 import getToken from '../../services/getToken';
 import getUser from '../../services/getUser';
 import userContext from '../../contexts/userContext';
-import URL from '../../services/URL';
+import URL from '../../services/BASE_URL';
 
 export function Like({ postId }) {
 	const [clicked, setClicked] = useState(false);
