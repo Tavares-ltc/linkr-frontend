@@ -24,7 +24,7 @@ function SearchBar() {
     }
     if (event.key === "Enter" && search.length >= 3 && usersList.length > 0) {
       const id = usersList[0].id;
-      setSearch()
+      setSearch("")
       setUsersList([])
       navigate(`/user/${id}`);
     }
@@ -37,7 +37,7 @@ function SearchBar() {
           minLength={3}
           debounceTimeout={300}
           onChange={(event) => setSearch(event.target.value)}
-          placeholder={"Search for people "}
+          placeholder={search.length > 0? search : "Search for people "}
         />
         <Wrappler>
           <BsSearch size="0.4em" color="#C6C6C6" />

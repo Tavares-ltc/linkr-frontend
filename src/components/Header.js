@@ -12,7 +12,6 @@ export default function Header() {
 	const navigate = useNavigate();
 	const [user, setUser] = useState('');
 	const { setUserdata } = useContext(userContext);
-
 	useEffect(() => {
 		const userToken = getToken();
 		getUser(userToken)
@@ -66,7 +65,7 @@ export default function Header() {
 						/>
 					)}
 
-					<img src={user.image} alt='' />
+					<img src={user.image} alt='' onClick={()=> {navigate(`/user/${user.id}`)}} />
 				</RighSide>
 				{button ? (
 					<LogOutButton onClick={exitUser}>Logout</LogOutButton>
@@ -133,5 +132,6 @@ const RighSide = styled.header`
 		border-radius: 35px;
 		margin-left: 20px;
 		margin-right: 20px;
+		cursor: pointer;
 	}
 `;
