@@ -11,7 +11,10 @@ function Posts({ refresh, setRefresh }) {
   useEffect(() => {
     const token = getToken();
     getPosts(token)
-      .then((res) => setPosts(res.data)
+      .then((res) => {
+        console.log(res);
+        setPosts(res.data[0]);
+      }
       )
       .catch(() =>
         alert(

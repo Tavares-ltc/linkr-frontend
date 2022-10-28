@@ -31,7 +31,8 @@ function CreatePost({ setRefresh, refresh }) {
     setLoading(!loading);
     const inputWords = input.description.split(' ');
     const hashtags = inputWords.filter(word => word[0] === '#');
-    createPost(user.id, hashtags, input.description, input.url, token)
+    const hashtagNames = hashtags.map(hashtag => hashtag.slice(1));
+    createPost(user.id, hashtagNames, input.description, input.url, token)
       .then(() => {
         setInput({ url: "", description: "" });
         setLoading(false);

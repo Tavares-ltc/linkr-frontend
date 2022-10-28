@@ -50,6 +50,7 @@ function UserPosts({userData}) {
             return (
               <Post
                 key={key}
+                id={post.id}
                 username={userData.name}
                 userId={post.userId}
                 userImage={userData.image}

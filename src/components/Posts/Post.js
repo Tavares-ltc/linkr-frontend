@@ -22,13 +22,15 @@ function Post({
   postId,
   userId,
   setRefresh,
-  refresh
+  refresh,
+  hashtag
 }) {
+
   const tagStyle = {
     color: 'white',
     fontWeight: 700,
     cursor: 'pointer'
-  };
+  }
 
   Modal.setAppElement('#root');
   let subtitle;
@@ -114,7 +116,7 @@ function Post({
   }
 
   return (
-    <Wrapper>
+    <Wrapper hashtag={hashtag}>
       <LeftColumn>
         <Picture image_url={userImage} alt="User picture" />
         <Like id={id} />
@@ -206,6 +208,7 @@ const Wrapper = styled.div`
   background: #171717;
   border-radius: 16px;
   padding: 17px;
+  ${(hashtag) => hashtag ? 'margin-bottom: 16px;' : ''}
 
   @media (max-width: 650px) {
     border-radius: 0;
