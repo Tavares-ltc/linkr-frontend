@@ -1,6 +1,5 @@
 import axios from 'axios';
-
-const BASE_URL = "https://project-linkr-api.herokuapp.com";
+const BASE_URL = 'https://project-linkr-api.herokuapp.com';
 
 function getComments(token, postId) {
 	const promise = axios.get(`${BASE_URL}/comments/${postId}`, {
