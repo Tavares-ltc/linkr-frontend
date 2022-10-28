@@ -50,14 +50,16 @@ function SearchBar() {
   );
 }
 const InputWrappler = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   background-color: #e7e7e7;
   box-sizing: content-box;
   border-radius: 8px;
-  width: 100%;
+  width: 440px;
+  position: fixed;
+  margin-top: 17px;
+  
 
   input {
     border: none;

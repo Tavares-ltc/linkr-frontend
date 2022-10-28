@@ -90,7 +90,6 @@ const ContentHeader = styled.header`
 	width: 100vw;
 	height: 72px;
 	display: flex;
-	//padding-top: 14px;
 	justify-content: space-between;
 	align-items: center;
 	background-color: #151515;
@@ -121,8 +120,8 @@ const LogOutButton = styled.div`
 const SearchBarWrappler = styled.div`
 	width: 440px;
 	margin: 0 20px;
-
-	position: relative;
+	height: 72px;
+	
 `;
 const RighSide = styled.header`
 	display: flex;
