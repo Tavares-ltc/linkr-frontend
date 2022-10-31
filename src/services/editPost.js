@@ -15,7 +15,7 @@ function auth() {
 function editPost({ formEdit, postId }) {
   const config = auth();
   const promise = axios.put(
-    `${BASE_URL}updatePost/${postId}`,
+    `${BASE_URL}/updatePost/${postId}`,
     formEdit,
     config
   );
@@ -24,7 +24,7 @@ function editPost({ formEdit, postId }) {
 
 function deletePost(postId) {
   const config = auth();
-  const promise = axios.delete(`${BASE_URL}delete/${postId}`, config);
+  const promise = axios.delete(`${BASE_URL}/delete/${postId}`, config);
   return promise;
 }
 
